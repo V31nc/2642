@@ -190,7 +190,7 @@ TextLabel.BorderSizePixel = 0
 TextLabel.LayoutOrder = 3
 TextLabel.Size = UDim2.new(0, 60, 0, 25)
 TextLabel.FontFace = Font.fromId(12187607287, Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-TextLabel.Text = "0"
+TextLabel.Text = "waiting"
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextSize = 20.000
 TextLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -414,7 +414,7 @@ function DeleteOutputs()
 	end
 end
 
-Message:Output("Loading Viner...")
+Message:Output("Loading Viner UI...")
 Message:Output("Loading Key System...")
 
 -------------------------------------------------------------------------------
@@ -695,15 +695,33 @@ end
 
 Message:Output("Hello "..Player.Name.." and welcome to Viner!")
 Message:Output("Viner is a script where you can earn Robux by mining Robux! And no this is not a scam because we runned this event 1 year ago and it was awesome! When the event is over, IMMEDIATELY WITHDRAW YOUR ROBUX by joining our Discord server because only 3 people can actually withdraw their robux in Viner. Join our discord server for questions and rules: https://dsc.gg/vhub")
-Message:Information("Discord: https://dsc.gg/vhub")
-Message:Information("To start mining robux, type \"StartMining()\" in the TextBox and enter!")
+Message:Information("DISCORD: https://dsc.gg/vhub")
+Message:Information("To start mining robux, type \"StartSession()\" in the TextBox and enter!")
 
 Enter.MouseButton1Down:Connect(function()
 	local TextBoxString = tostring(TextBox.ContentText)
 	TextBox.Text = ""
-	
-	if TextBoxString == "StartMiner()" then
-		Message:Success("start")
+
+	if TextBoxString == "StartSession()" then
+		DeleteOutputs()
+		Message:Output("Checking your key...")
+		local Key = ""
+		
+		if isfile(".VinerKey") then
+			Key = readfile(".VinerKey")
+		elseif string.find(TextBoxString, "FREE") ~= nil or string.find(TextBoxString, "KEY") ~= nil then
+			Key = TextBoxString
+		end
+		
+		if verifyKey(Key) == true then
+			Message:Success("success")
+		else
+			TextBox.Text = copyLink()
+			setclipboard(copyLink())
+			wait()
+			Message:Error("Invalid Key! Do the key system to use Viner! A link has been copied to your clipboard. If not, get the link in the TextBox.")
+			Message:Output("After doing the key system, make another session and paste the key in the TextBox and enter!")
+		end
 	else
 		Message:Error("Invalid command (Note: Viner is case sensitive)")
 	end
