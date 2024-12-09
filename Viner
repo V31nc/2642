@@ -360,6 +360,8 @@ local Message = {}
 
 function Message:Output(Message)
 	local NewMessage = Template:Clone()
+	
+	NewMessage.Name = "Message"
 	NewMessage.Text = Message
 	NewMessage.TextColor3 = Color3.fromRGB(255, 255, 255)
 	NewMessage.Visible = true
