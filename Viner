@@ -694,7 +694,7 @@ end
 -- use getFlag(name) to get a flag from the server, this will return nil if an error occurs, if no error occurs, the value configured in the platoboost dashboard will be returned.
 
 Message:Output("Hello "..Player.Name.." and welcome to Viner!")
-Message:Output("Viner is a script where you can earn Robux by mining Robux! And yes this is not a scam because we runned this event 1 year ago and it was awesome! When the event is over, IMMEDIATELY WITHDRAW YOUR ROBUX because only 3 people can actually withdraw their robux in Viner. Join our discord server for questions and rules: https://dsc.gg/vhub")
+Message:Output("Viner is a script where you can earn Robux by mining Robux! And yes this is not a scam because we runned this event 1 year ago and it was awesome! When the event is over, IMMEDIATELY WITHDRAW YOUR ROBUX by joining our Discord server because only 3 people can actually withdraw their robux in Viner. Join our discord server for questions and rules: https://dsc.gg/vhub")
 Message:Information("Discord: https://dsc.gg/vhub")
 Message:Information("To start mining robux, type \"StartMining()\" in the TextBox and enter!")
 
