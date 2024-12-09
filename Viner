@@ -407,8 +407,8 @@ function Message:Information(Message)
 end
 
 function DeleteOutputs()
-	for _, v in pairs(ScrollingFrame:GetChildren()) do
-		if v:IsA("TextLabel") and v.Name == "Message" then
+	for _, v in ScrollingFrame:GetChildren() do
+		if v.Name == "Message" then
 			v:Destroy()
 		end
 	end
@@ -482,7 +482,7 @@ function cacheLink()
 				return false, decoded.message;
 			end
 		elseif response.StatusCode == 429 then
-			local msg = "you are being rate limited, please wait 20 seconds and try again.";
+			local msg = "You are being rate limited, please wait 20 seconds and try again.";
 			onMessage(msg);
 			return false, msg;
 		end
@@ -511,7 +511,7 @@ for _ = 1, 5 do
 	local oNonce = generateNonce();
 	task.wait(0.2)
 	if generateNonce() == oNonce then
-		local msg = "platoboost nonce error.";
+		local msg = "Platoboost nonce error.";
 		onMessage(msg);
 		error(msg);
 	end
@@ -522,7 +522,7 @@ local copyLink = function()
 	local success, link = cacheLink();
 
 	if success then
-		fSetClipboard(link);
+		return link;
 	end
 end
 
@@ -558,19 +558,19 @@ local redeemKey = function(key)
 					if decoded.data.hash == lDigest("true" .. "-" .. nonce .. "-" .. secret) then
 						return true;
 					else
-						onMessage("failed to verify integrity.");
+						onMessage("Failed to verify integrity.");
 						return false;
 					end    
 				else
 					return true;
 				end
 			else
-				onMessage("key is invalid.");
+				onMessage("Key is invalid.");
 				return false;
 			end
 		else
 			if fStringSub(decoded.message, 1, 27) == "unique constraint violation" then
-				onMessage("you already have an active key, please wait for it to expire before redeeming it.");
+				onMessage("You already have an active key, please wait for it to expire before redeeming it.");
 				return false;
 			else
 				onMessage(decoded.message);
@@ -578,10 +578,10 @@ local redeemKey = function(key)
 			end
 		end
 	elseif response.StatusCode == 429 then
-		onMessage("you are being rate limited, please wait 20 seconds and try again.");
+		onMessage("You are being rate limited, please wait 20 seconds and try again.");
 		return false;
 	else
-		onMessage("server returned an invalid status code, please try again later.");
+		onMessage("Server returned an invalid status code, please try again later.");
 		return false; 
 	end
 end
@@ -589,7 +589,7 @@ end
 --!optimize 2
 local verifyKey = function(key)
 	if requestSending == true then
-		onMessage("a request is already being sent, please slow down.");
+		onMessage("A request is already being sent, please slow down.");
 		return false;
 	else
 		requestSending = true;
@@ -618,7 +618,7 @@ local verifyKey = function(key)
 					if decoded.data.hash == lDigest("true" .. "-" .. nonce .. "-" .. secret) then
 						return true;
 					else
-						onMessage("failed to verify integrity.");
+						onMessage("Failed to verify integrity.");
 						return false;
 					end
 				else
@@ -628,7 +628,7 @@ local verifyKey = function(key)
 				if fStringSub(key, 1, 4) == "KEY_" then
 					return redeemKey(key);
 				else
-					onMessage("key is invalid.");
+					onMessage("Key is invalid.");
 					return false;
 				end
 			end
@@ -637,10 +637,10 @@ local verifyKey = function(key)
 			return false;
 		end
 	elseif response.StatusCode == 429 then
-		onMessage("you are being rate limited, please wait 20 seconds and try again.");
+		onMessage("You are being rate limited, please wait 20 seconds and try again.");
 		return false;
 	else
-		onMessage("server returned an invalid status code, please try again later.");
+		onMessage("Server returned an invalid status code, please try again later.");
 		return false;
 	end
 end
@@ -667,7 +667,7 @@ local getFlag = function(name)
 				if decoded.data.hash == lDigest(fToString(decoded.data.value) .. "-" .. nonce .. "-" .. secret) then
 					return decoded.data.value;
 				else
-					onMessage("failed to verify integrity.");
+					onMessage("Failed to verify integrity.");
 					return nil;
 				end
 			else
@@ -718,7 +718,6 @@ Enter.MouseButton1Down:Connect(function()
 		else
 			TextBox.Text = copyLink()
 			setclipboard(copyLink())
-			wait()
 			Message:Error("Invalid Key! Do the key system to use Viner! A link has been copied to your clipboard. If not, get the link in the TextBox.")
 			Message:Output("After doing the key system, make another session and paste the key in the TextBox and enter!")
 		end
