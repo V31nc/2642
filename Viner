@@ -702,6 +702,7 @@ Message:Information("To start mining robux, type \"StartSession()\" in the TextB
 
 function CheckKey(Key)
 	if verifyKey(Key) == true then
+		_G.KeySystemSession = false
 		DeleteOutputs()
 		Message:Success("success")
 	else
