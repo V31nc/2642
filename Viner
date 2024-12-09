@@ -484,12 +484,12 @@ function cacheLink()
 				return false, decoded.message;
 			end
 		elseif response.StatusCode == 429 then
-			local msg = "You are being rate limited, please wait 20 seconds and try again.";
+			local msg = "Platoboost: You are being rate limited, please wait 20 seconds and try again.";
 			onMessage(msg);
 			return false, msg;
 		end
 
-		local msg = "Failed to cache link.";
+		local msg = "Platoboost: Failed to cache link.";
 		onMessage(msg);
 		return false, msg;
 	else
@@ -513,7 +513,7 @@ for _ = 1, 5 do
 	local oNonce = generateNonce();
 	task.wait(0.2)
 	if generateNonce() == oNonce then
-		local msg = "Platoboost nonce error.";
+		local msg = "Platoboost: Platoboost nonce error.";
 		onMessage(msg);
 		error(msg);
 	end
@@ -560,19 +560,19 @@ local redeemKey = function(key)
 					if decoded.data.hash == lDigest("true" .. "-" .. nonce .. "-" .. secret) then
 						return true;
 					else
-						onMessage("Failed to verify integrity.");
+						onMessage("Platoboost: Failed to verify integrity.");
 						return false;
 					end    
 				else
 					return true;
 				end
 			else
-				onMessage("Key is invalid.");
+				onMessage("Platoboost: Key is invalid.");
 				return false;
 			end
 		else
 			if fStringSub(decoded.message, 1, 27) == "unique constraint violation" then
-				onMessage("You already have an active key, please wait for it to expire before redeeming it.");
+				onMessage("Platoboost: You already have an active key, please wait for it to expire before redeeming it.");
 				return false;
 			else
 				onMessage(decoded.message);
@@ -580,10 +580,10 @@ local redeemKey = function(key)
 			end
 		end
 	elseif response.StatusCode == 429 then
-		onMessage("You are being rate limited, please wait 20 seconds and try again.");
+		onMessage("Platoboost: You are being rate limited, please wait 20 seconds and try again.");
 		return false;
 	else
-		onMessage("Server returned an invalid status code, please try again later.");
+		onMessage("Platoboost: Server returned an invalid status code, please try again later.");
 		return false; 
 	end
 end
@@ -591,7 +591,7 @@ end
 --!optimize 2
 local verifyKey = function(key)
 	if requestSending == true then
-		onMessage("A request is already being sent, please slow down.");
+		onMessage("Platoboost: A request is already being sent, please slow down.");
 		return false;
 	else
 		requestSending = true;
@@ -620,7 +620,7 @@ local verifyKey = function(key)
 					if decoded.data.hash == lDigest("true" .. "-" .. nonce .. "-" .. secret) then
 						return true;
 					else
-						onMessage("Failed to verify integrity.");
+						onMessage("Platoboost: Failed to verify integrity.");
 						return false;
 					end
 				else
@@ -630,7 +630,7 @@ local verifyKey = function(key)
 				if fStringSub(key, 1, 4) == "KEY_" then
 					return redeemKey(key);
 				else
-					onMessage("Key is invalid.");
+					onMessage("Platoboost: Key is invalid.");
 					return false;
 				end
 			end
@@ -639,10 +639,10 @@ local verifyKey = function(key)
 			return false;
 		end
 	elseif response.StatusCode == 429 then
-		onMessage("You are being rate limited, please wait 20 seconds and try again.");
+		onMessage("Platoboost: You are being rate limited, please wait 20 seconds and try again.");
 		return false;
 	else
-		onMessage("Server returned an invalid status code, please try again later.");
+		onMessage("Platoboost: Server returned an invalid status code, please try again later.");
 		return false;
 	end
 end
@@ -669,7 +669,7 @@ local getFlag = function(name)
 				if decoded.data.hash == lDigest(fToString(decoded.data.value) .. "-" .. nonce .. "-" .. secret) then
 					return decoded.data.value;
 				else
-					onMessage("Failed to verify integrity.");
+					onMessage("Platoboost: Failed to verify integrity.");
 					return nil;
 				end
 			else
@@ -700,6 +700,19 @@ Message:Output("Viner is a script where you can earn Robux by mining Robux! And 
 Message:Information("DISCORD: https://dsc.gg/vhub")
 Message:Information("To start mining robux, type \"StartSession()\" in the TextBox and enter!")
 
+function CheckKey(Key)
+	if verifyKey(Key) == true then
+		DeleteOutputs()
+		Message:Success("success")
+	else
+		_G.KeySystemSession = true
+		TextBox.Text = copyLink()
+		setclipboard(copyLink())
+		Message:Error("Invalid Key! Do the key system to use Viner! A link has been copied to your clipboard. If not, get the link in the TextBox.")
+		Message:Output("After doing the key system, make another session and paste the key in the TextBox and enter!")
+	end
+end
+
 Enter.MouseButton1Down:Connect(function()
 	local TextBoxString = tostring(TextBox.ContentText)
 	TextBox.Text = ""
@@ -714,15 +727,11 @@ Enter.MouseButton1Down:Connect(function()
 		elseif string.find(TextBoxString, "FREE") ~= nil or string.find(TextBoxString, "KEY") ~= nil then
 			Key = TextBoxString
 		end
+		CheckKey(Key)
 		
-		if verifyKey(Key) == true then
-			Message:Success("success")
-		else
-			TextBox.Text = copyLink()
-			setclipboard(copyLink())
-			Message:Error("Invalid Key! Do the key system to use Viner! A link has been copied to your clipboard. If not, get the link in the TextBox.")
-			Message:Output("After doing the key system, make another session and paste the key in the TextBox and enter!")
-		end
+	elseif string.find(TextBoxString, "FREE") ~= nil or string.find(TextBoxString, "KEY") ~= nil and _G.KeySystemSession == true then
+		CheckKey(TextBoxString)
+		
 	else
 		Message:Error("Invalid command (Note: Viner is case sensitive)")
 	end
