@@ -704,13 +704,14 @@ function CheckKey(Key)
 	if verifyKey(Key) == true then
 		_G.KeySystemSession = false
 		DeleteOutputs()
+		writefile(".VinerKey", Key)
 		Message:Success("success")
 	else
 		_G.KeySystemSession = true
 		TextBox.Text = "KEY HERE!"
 		setclipboard(copyLink())
 		Message:Error("Invalid Key! Do the key system to use Viner! A link has been copied to your clipboard.")
-		Message:Output("After doing the key system, make another session and paste the key in the TextBox and enter!")
+		Message:Information("After doing the key system, make another session and paste the key in the TextBox and enter!")
 	end
 end
 
