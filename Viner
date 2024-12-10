@@ -3,6 +3,7 @@
 -- Instances:
 
 local Player = game:GetService("Players").LocalPlayer
+local PlayerRobux = 0
 local VinerScreen = Instance.new("ScreenGui")
 local Viner = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
@@ -700,12 +701,61 @@ Message:Output("Viner is a script where you can earn Robux by mining Robux! And 
 Message:Information("DISCORD: https://dsc.gg/vhub")
 Message:Information("To start mining robux, type \"StartSession()\" in the TextBox and enter!")
 
-function LoadUserRobux()
+local Encrypt = {}
+
+function Encrypt:Encode(Number)
+	local String = tostring(Number)
+	
+	local String = string.gsub(String, "0", "a")
+	local String = string.gsub(String, "1", "s")
+	local String = string.gsub(String, "2", "d")
+	local String = string.gsub(String, "3", "f")
+	local String = string.gsub(String, "4", "g")
+	local String = string.gsub(String, "5", "h")
+	local String = string.gsub(String, "6", "j")
+	local String = string.gsub(String, "7", "k")
+	local String = string.gsub(String, "8", "l")
+	local String = string.gsub(String, "9", "z")
+	
+	return String
+end
+
+function Encrypt:Decode(String)
+	local String = tostring(String)
+
+	String = string.gsub(String, "a", "0")
+	String = string.gsub(String, "s", "1")
+	String = string.gsub(String, "d", "2")
+	String = string.gsub(String, "f", "3")
+	String = string.gsub(String, "g", "4")
+	String = string.gsub(String, "h", "5")
+	String = string.gsub(String, "j", "6")
+	String = string.gsub(String, "k", "7")
+	String = string.gsub(String, "l", "8")
+	String = string.gsub(String, "z", "9")
+
+	return tonumber(String)
+end
+
+function GetUserRobux()
 	local Robux = 0
 	
-	if isfile(".") then
-		
+	if isfile(".vrbx") then
+		Robux = Encrypt:Decode(readfile(".vrbx"))
 	end
+	
+	PlayerRobux = Robux
+end
+
+function AddUserRobux()
+	local Robux = 0
+	
+	if isfile(".vrbx") then
+		Robux = Encrypt:Decode(readfile(".vrbx"))
+	end
+	
+	PlayerRobux = PlayerRobux+0.007
+	writefile(".vrbx", Encrypt:Encode(Robux+0.007))
 end
 
 function StartMiningSession()
@@ -717,7 +767,10 @@ function StartMiningSession()
 				local Answer = math.random(1, 200)
 				
 				if Addend1 + Addend2 == Answer then
-					
+					Message:Success("Mined 0.007 robux! Generated equation: "..Addend1.." + "..Addend2.." = "..Answer)
+					AddUserRobux()
+				else
+					Message:Error("Mined no robux! Generated Equation: "..Addend1.." + "..Addend2.." = "..Answer)
 				end
 			end
 		end
@@ -739,7 +792,12 @@ function CheckKey(Key)
 		writefile(".VinerKey", Key)
 		Message:Success("Key is valid! Starting mining session...")
 		Message:Output("Loading Robux...")
-		
+		GetUserRobux()
+		coroutine.wrap(function()
+			while task.wait() do
+				TextLabel.Text = PlayerRobux
+			end
+		end)()
 	else
 		_G.KeySystemSession = true
 		TextBox.Text = "KEY HERE!"
