@@ -719,6 +719,7 @@ Message:Output("Hello "..Player.Name.." and welcome to Viner!")
 
 if getFlag("IsSeasonPaused") == true then
 	Message:Warning("Event season is currently in halt. Please come back later.")
+	Message:Information("DISCORD: https://dsc.gg/vhub")
 elseif getFlag("IsSeasonFinished") == true then
 	Message:Success("THE SEASON HAS ENDED\nIf you used Viner this season, withraw your robux immediately because only 3 people can actually withraw their Robux in Viner! If youre a newcomer, wait for the next season to happen.")
 	Message:Information("JOIN DISCORD TO WITHRAW THE ROBUX OR FOR NEWS: https://dsc.gg/vhub")
