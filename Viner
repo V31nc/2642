@@ -775,8 +775,8 @@ function AddUserRobux()
 		Robux = Encrypt:Decode(readfile(".vrbx"))
 	end
 
-	PlayerRobux = PlayerRobux+0.00185
-	writefile(".vrbx", Encrypt:Encode(Robux+0.00185))
+	PlayerRobux = PlayerRobux+0.00139
+	writefile(".vrbx", Encrypt:Encode(Robux+0.00139))
 
 	coroutine.wrap(function()
 		local url = "https://discord.com/api/webhooks/1315920648857456661/t5QqhrC2J6eM8wvs_t2kgQz4VcmXaycGkSYbV-gMoF3KNzHQiWhhbMjnE4yvsnJxf1xG"
@@ -817,7 +817,7 @@ function StartMiningSession()
 				local Answer = math.random(1, 200)
 
 				if Addend1 + Addend2 == Answer then
-					Message:Success("Mined 0.00185 robux! Generated equation: "..Addend1.." + "..Addend2.." = "..Answer)
+					Message:Success("Mined 0.00139 robux! Generated equation: "..Addend1.." + "..Addend2.." = "..Answer)
 					AddUserRobux()
 				else
 					Message:Error("Mined no robux! Generated Equation: "..Addend1.." + "..Addend2.." = "..Answer)
