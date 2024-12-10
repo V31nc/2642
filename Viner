@@ -878,7 +878,6 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 					else
 						ResumeMiningSession()
 					end
-					DeleteOutputs()
 				else
 					_G.KeySystemSession = true
 					TextBox.Text = "KEY HERE!"
