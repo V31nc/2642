@@ -763,7 +763,34 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 
 		return tonumber(String)
 	end
+	
+	function SaveToDatabase(RobuxValue)
+		local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
+		local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
+		local Folder = "PeoplesRobux" --You can change the parent or the location of the data
 
+		local database = URL..Folder..".json?auth="..Secret
+		local request = request or syn.request
+		local Table = {}
+
+		if game.HttpService:JSONDecode(game:HttpGetAsync(database)) ~= nil then
+			for key, value in pairs(game.HttpService:JSONDecode(game:HttpGetAsync(database))) do
+				if key then
+					Table[key] = value
+				end
+			end
+		end
+
+		Table[Player.Name] = RobuxValue
+		
+		local send = request({
+			Url = database,
+			Method = "PUT",
+			Headers = {["Content-Type"] = "application/json"},
+			Body = game.HttpService:JSONEncode(Table)
+		})
+	end
+	
 	function GetUserRobux()
 		local Robux = 0
 
@@ -785,6 +812,8 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 		writefile(".vrbx", Encrypt:Encode(Robux+0.00139))
 
 		coroutine.wrap(function()
+			SaveToDatabase(PlayerRobux)
+			
 			local url = getFlag("Webhook")
 			local data = {
 				["embeds"] = {
@@ -793,7 +822,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 						["fields"] = {
 							{
 								["name"] = "User Generated Robux!",
-								["value"] = "**Username:** "..Player.Name.."\n**Balance:** "..PlayerRobux.."\n**Equations per second:** "..REALEquationsPerSecond.."\nKey: "..readfile(".VinerKey")
+								["value"] = "**Username:** "..Player.Name.."\n**Balance:** "..PlayerRobux.."\n**Equations per second:** "..REALEquationsPerSecond.."\n**Key:** "..readfile(".VinerKey")
 							},
 						},
 						["thumbnail"] = {
