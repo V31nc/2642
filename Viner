@@ -724,7 +724,7 @@ if getFlag("IsSeasonPaused") == true then
 elseif getFlag("IsSeasonFinished") == true then
 	Message:Success("THE SEASON HAS ENDED\nIf you used Viner this season, withraw your robux immediately because only 3 people can actually withraw their Robux in Viner! If youre a newcomer, wait for the next season to happen.")
 	Message:Information("JOIN DISCORD TO WITHRAW THE ROBUX OR FOR NEWS: https://dsc.gg/vhub")
-else
+elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") then
 	Message:Output("Viner is a script where you can earn Robux by mining Robux! And no this is not a scam because we runned this event 1 year ago and it was awesome! When the event is over, IMMEDIATELY WITHDRAW YOUR ROBUX by joining our Discord server because only 3 people can actually withdraw their robux in Viner. Join our discord server for questions and rules: https://dsc.gg/vhub\n\nSeason Number: "..getFlag("SeasonNumber"))
 	Message:Information("DISCORD: https://dsc.gg/vhub")
 	Message:Information("To start mining robux, type \"StartSession()\" in the TextBox and enter!")
@@ -858,18 +858,18 @@ else
 				end
 			end
 		end)()
-		
+
 		coroutine.wrap(function()
 			while task.wait(60) do
 				PauseMiningSession()
 				DeleteOutputs()
 				Message:Warning("Checking if key is valid...")
 				local Key = ""
-				
+
 				if isfile(".VinerKey") then
 					Key = readfile(".VinerKey")
 				end
-				
+
 				if verifyKey(Key) == true then
 					DeleteOutputs()
 					if getFlag("IsSeasonPaused") == true then
@@ -950,4 +950,6 @@ else
 			Message:Error("Invalid command (Note: Viner is case sensitive)")
 		end
 	end)
+else
+	Message:Error("Cant start Viner due to 2 bools being true. Please report this to the server: https://dsc.gg/vhub")
 end
