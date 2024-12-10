@@ -816,6 +816,7 @@ function CheckKey(Key)
 				TextLabel.Text = PlayerRobux
 			end
 		end)()
+		ResumeMiningSession()
 		StartMiningSession()
 	else
 		_G.KeySystemSession = true
