@@ -755,9 +755,6 @@ end
 
 function PrintTop10Miners()
 	local Database = ReadDatabase()
-	table.sort(Database, function(a, b)
-		return a < b
-	end)
 	
 	function FindUserFromRobux(Number)
 		for i, v in Database do
