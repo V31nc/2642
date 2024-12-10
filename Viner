@@ -851,6 +851,28 @@ function StartMiningSession()
 			end
 		end
 	end)()
+	
+	coroutine.wrap(function()
+		while task.wait(60) do
+			PauseMiningSession()
+			DeleteOutputs()
+			Message:Warning("Checking if key is valid...")
+			local Key = ""
+			
+			if isfile(".VinerKey") then
+				Key = readfile(".VinerKey")
+			end
+			
+			if verifyKey(Key) == true then
+				ResumeMiningSession()
+			else
+				_G.KeySystemSession = true
+				TextBox.Text = "KEY HERE!"
+				setclipboard(copyLink())
+				Message:Error("Invalid Key! Do the key system to use Viner! A link has been copied to your clipboard.")
+			end
+		end
+	end)()
 end
 
 function ResumeMiningSession()
