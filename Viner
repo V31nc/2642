@@ -885,19 +885,23 @@ end
 
 function CheckKey(Key)
 	if verifyKey(Key) == true then
-		_G.KeySystemSession = false
-		DeleteOutputs()
-		writefile(".VinerKey", Key)
-		Message:Success("Key is valid! Starting mining session...")
-		Message:Output("Loading Robux...")
-		GetUserRobux()
-		coroutine.wrap(function()
-			while task.wait() do
-				TextLabel.Text = PlayerRobux
-			end
-		end)()
-		ResumeMiningSession()
-		StartMiningSession()
+		if _G.PauseMiningSession == nil then
+			_G.KeySystemSession = false
+			DeleteOutputs()
+			writefile(".VinerKey", Key)
+			Message:Success("Key is valid! Starting mining session...")
+			Message:Output("Loading Robux...")
+			GetUserRobux()
+			coroutine.wrap(function()
+				while task.wait() do
+					TextLabel.Text = PlayerRobux
+				end
+			end)()
+			ResumeMiningSession()
+			StartMiningSession()
+		else
+			ResumeMiningSession()
+		end
 	else
 		_G.KeySystemSession = true
 		TextBox.Text = "KEY HERE!"
