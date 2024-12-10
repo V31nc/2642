@@ -4,6 +4,7 @@
 
 local Player = game:GetService("Players").LocalPlayer
 local PlayerRobux = 0
+local GeneratedEquationsPerSecond = 0
 local VinerScreen = Instance.new("ScreenGui")
 local Viner = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
@@ -791,6 +792,17 @@ function StartMiningSession()
 				else
 					Message:Error("Mined no robux! Generated Equation: "..Addend1.." + "..Addend2.." = "..Answer)
 				end
+				
+				GeneratedEquationsPerSecond = GeneratedEquationsPerSecond+1
+			end
+		end
+	end)()
+	
+	coroutine.wrap(function()
+		while task.wait(1) do
+			if _G.PauseMiningSession == false then
+				TextBox.Text = "Equations per second: "..GeneratedEquationsPerSecond
+				GeneratedEquationsPerSecond = 0
 			end
 		end
 	end)()
