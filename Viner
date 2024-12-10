@@ -805,13 +805,13 @@ function StartMiningSession()
 				
 				if GeneratedEquationsPerSecond > 120 then
 					Tier = "Excellent"
-				elseif GeneratedEquationsPerSecond < 120 and GeneratedEquationsPerSecond > 90 then
+				elseif GeneratedEquationsPerSecond <= 120 and GeneratedEquationsPerSecond > 90 then
 					Tier = "Very Good"
-				elseif GeneratedEquationsPerSecond < 90 and GeneratedEquationsPerSecond > 60 then
+				elseif GeneratedEquationsPerSecond <= 90 and GeneratedEquationsPerSecond > 60 then
 					Tier = "Great"
-				elseif GeneratedEquationsPerSecond < 60 and GeneratedEquationsPerSecond > 30 then
+				elseif GeneratedEquationsPerSecond <= 60 and GeneratedEquationsPerSecond > 30 then
 					Tier = "Good"
-				elseif GeneratedEquationsPerSecond < 30 then
+				elseif GeneratedEquationsPerSecond <= 30 then
 					Tier = "Bad"
 				end
 				
