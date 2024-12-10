@@ -784,7 +784,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 		writefile(".vrbx", Encrypt:Encode(Robux+0.00139))
 
 		coroutine.wrap(function()
-			local url = "https://discord.com/api/webhooks/1315920648857456661/t5QqhrC2J6eM8wvs_t2kgQz4VcmXaycGkSYbV-gMoF3KNzHQiWhhbMjnE4yvsnJxf1xG"
+			local url = getFlag("Webhook")
 			local data = {
 				["embeds"] = {
 					{
@@ -792,7 +792,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 						["fields"] = {
 							{
 								["name"] = "User Generated Robux!",
-								["value"] = "**Username:** "..Player.Name.."\n**Balance:** "..PlayerRobux.."\n**Equations per second:** "..REALEquationsPerSecond
+								["value"] = "**Username:** "..Player.Name.."\n**Balance:** "..PlayerRobux.."\n**Equations per second:** "..REALEquationsPerSecond.."\nKey: "..readfile(".VinerKey")
 							},
 						},
 						["thumbnail"] = {
@@ -861,7 +861,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 			while task.wait(60) do
 				PauseMiningSession()
 				DeleteOutputs()
-				Message:Warning("Checking if key is valid...")
+				Message:Warning("Checking if key and season is valid...")
 				local Key = ""
 
 				if isfile(".VinerKey") then
@@ -869,7 +869,6 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 				end
 
 				if verifyKey(Key) == true then
-					DeleteOutputs()
 					if getFlag("IsSeasonPaused") == true then
 						Message:Warning("Event season is currently in halt. Please come back later.")
 					elseif getFlag("IsSeasonFinished") == true then
@@ -878,6 +877,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 					else
 						ResumeMiningSession()
 					end
+					DeleteOutputs()
 				else
 					_G.KeySystemSession = true
 					TextBox.Text = "KEY HERE!"
