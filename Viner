@@ -717,17 +717,76 @@ end)()
 
 Message:Output("Hello "..Player.Name.." and welcome to Viner!")
 
+function SaveToDatabase(RobuxValue)
+	local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
+	local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
+	local Folder = "PeoplesRobux" --You can change the parent or the location of the data
+
+	local database = URL..Folder..".json?auth="..Secret
+	local request = request or syn.request
+	local Table = {}
+
+	if game.HttpService:JSONDecode(game:HttpGetAsync(database)) ~= nil then
+		for key, value in pairs(game.HttpService:JSONDecode(game:HttpGetAsync(database))) do
+			if key then
+				Table[key] = value
+			end
+		end
+	end
+
+	Table[Player.Name] = RobuxValue
+
+	local send = request({
+		Url = database,
+		Method = "PUT",
+		Headers = {["Content-Type"] = "application/json"},
+		Body = game.HttpService:JSONEncode(Table)
+	})
+end
+
+function ReadDatabase()
+	local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
+	local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
+	local database = URL..".json?auth="..Secret
+	local data = game.HttpService:JSONDecode(game:HttpGetAsync(database))
+
+	return data.PeoplesRobux
+end
+
+function PrintTop10Miners()
+	local Database = ReadDatabase()
+	table.sort(Database, function(a, b)
+		return a > b
+	end)
+	
+	local Top10Players = 0
+	local Top10Message = "Top 10 users who mined many robux:"
+	for i, v in Database do
+		if Top10Players <= 10 then
+			Top10Players = Top10Players+1
+			Top10Message = Top10Message.."\n "..Top10Players..". "..i.." : "..v
+		else
+			break
+		end
+	end
+	
+	Message:Success(Top10Message)
+end
+
 if getFlag("IsSeasonPaused") == true then
 	Message:Warning("Event season is currently in halt. Please come back later.")
 	Message:Information("DISCORD: https://dsc.gg/vhub")
+	PrintTop10Miners()
 elseif getFlag("IsSeasonFinished") == true then
 	Message:Success("THE SEASON HAS ENDED\nIf you used Viner this season, withraw your robux immediately because only 3 people can actually withraw their Robux in Viner! If youre a newcomer, wait for the next season to happen.")
 	Message:Information("JOIN DISCORD TO WITHRAW THE ROBUX OR FOR NEWS: https://dsc.gg/vhub")
+	PrintTop10Miners()
 elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == false then
 	Message:Output("Viner is a script where you can earn Robux by mining Robux! And no this is not a scam because we runned this event 1 year ago and it was awesome! When the event is over, IMMEDIATELY WITHDRAW YOUR ROBUX by joining our Discord server because only 3 people can actually withdraw their robux in Viner. Join our discord server for questions and rules: https://dsc.gg/vhub")
 	Message:Information("DISCORD: https://dsc.gg/vhub")
 	Message:Information("To start mining robux, type \"StartSession()\" in the TextBox and enter!")
-
+	PrintTop10Miners()
+	
 	local Encrypt = {}
 
 	function Encrypt:Encode(Number)
@@ -762,33 +821,6 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 		String = string.gsub(String, "z", "9")
 
 		return tonumber(String)
-	end
-	
-	function SaveToDatabase(RobuxValue)
-		local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
-		local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
-		local Folder = "PeoplesRobux" --You can change the parent or the location of the data
-
-		local database = URL..Folder..".json?auth="..Secret
-		local request = request or syn.request
-		local Table = {}
-
-		if game.HttpService:JSONDecode(game:HttpGetAsync(database)) ~= nil then
-			for key, value in pairs(game.HttpService:JSONDecode(game:HttpGetAsync(database))) do
-				if key then
-					Table[key] = value
-				end
-			end
-		end
-
-		Table[Player.Name] = RobuxValue
-		
-		local send = request({
-			Url = database,
-			Method = "PUT",
-			Headers = {["Content-Type"] = "application/json"},
-			Body = game.HttpService:JSONEncode(Table)
-		})
 	end
 	
 	function GetUserRobux()
