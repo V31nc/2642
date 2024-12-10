@@ -717,6 +717,8 @@ end)()
 
 Message:Output("Hello "..Player.Name.." and welcome to Viner!")
 
+print(getFlag("IsSeasonPaused"))
+
 if getFlag("IsSeasonPaused") == true then
 	Message:Warning("Event season is currently in halt. Please come back later.")
 elseif getFlag("IsSeasonFinished") == true then
