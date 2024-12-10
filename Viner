@@ -360,7 +360,7 @@ local Message = {}
 
 function Message:Output(Message)
 	local NewMessage = Template:Clone()
-	
+
 	NewMessage.Name = "Message"
 	NewMessage.Text = Message
 	NewMessage.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -700,12 +700,46 @@ Message:Output("Viner is a script where you can earn Robux by mining Robux! And 
 Message:Information("DISCORD: https://dsc.gg/vhub")
 Message:Information("To start mining robux, type \"StartSession()\" in the TextBox and enter!")
 
+function LoadUserRobux()
+	local Robux = 0
+	
+	if isfile(".") then
+		
+	end
+end
+
+function StartMiningSession()
+	coroutine.wrap(function()
+		while task.wait() do
+			if _G.PauseMiningSession == false then
+				local Addend1 = math.random(1, 100)
+				local Addend2 = math.random(1, 100)
+				local Answer = math.random(1, 200)
+				
+				if Addend1 + Addend2 == Answer then
+					
+				end
+			end
+		end
+	end)()
+end
+
+function ResumeMiningSession()
+	_G.PauseMiningSession = false
+end
+
+function PauseMiningSession()
+	_G.PauseMiningSession = true
+end
+
 function CheckKey(Key)
 	if verifyKey(Key) == true then
 		_G.KeySystemSession = false
 		DeleteOutputs()
 		writefile(".VinerKey", Key)
-		Message:Success("success")
+		Message:Success("Key is valid! Starting mining session...")
+		Message:Output("Loading Robux...")
+		
 	else
 		_G.KeySystemSession = true
 		TextBox.Text = "KEY HERE!"
@@ -723,18 +757,18 @@ Enter.MouseButton1Down:Connect(function()
 		DeleteOutputs()
 		Message:Output("Checking your key...")
 		local Key = ""
-		
+
 		if isfile(".VinerKey") then
 			Key = readfile(".VinerKey")
 		elseif string.find(TextBoxString, "FREE") ~= nil or string.find(TextBoxString, "KEY") ~= nil then
 			Key = TextBoxString
 		end
 		CheckKey(Key)
-		
+
 	elseif string.find(TextBoxString, "FREE") ~= nil or string.find(TextBoxString, "KEY") ~= nil and _G.KeySystemSession == true then
 		Message:Output("Checking your key...")
 		CheckKey(TextBoxString)
-		
+
 	else
 		Message:Error("Invalid command (Note: Viner is case sensitive)")
 	end
