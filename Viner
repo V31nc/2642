@@ -705,7 +705,7 @@ coroutine.wrap(function()
 			end
 		end
 
-		if #Outputs > MAX_LABELS then
+		if #Outputs > 10 then
 			table.sort(Outputs, function(a, b)
 				return a.LayoutOrder < b.LayoutOrder
 			end)
