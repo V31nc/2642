@@ -774,8 +774,8 @@ function AddUserRobux()
 		Robux = Encrypt:Decode(readfile(".vrbx"))
 	end
 	
-	PlayerRobux = PlayerRobux+0.003
-	writefile(".vrbx", Encrypt:Encode(Robux+0.003))
+	PlayerRobux = PlayerRobux+0.00005
+	writefile(".vrbx", Encrypt:Encode(Robux+0.00005))
 end
 
 function StartMiningSession()
@@ -787,7 +787,7 @@ function StartMiningSession()
 				local Answer = math.random(1, 200)
 				
 				if Addend1 + Addend2 == Answer then
-					Message:Success("Mined 0.003 robux! Generated equation: "..Addend1.." + "..Addend2.." = "..Answer)
+					Message:Success("Mined 0.00005 robux! Generated equation: "..Addend1.." + "..Addend2.." = "..Answer)
 					AddUserRobux()
 				else
 					Message:Error("Mined no robux! Generated Equation: "..Addend1.." + "..Addend2.." = "..Answer)
@@ -801,7 +801,21 @@ function StartMiningSession()
 	coroutine.wrap(function()
 		while task.wait(1) do
 			if _G.PauseMiningSession == false then
-				TextBox.Text = "Equations per second: "..GeneratedEquationsPerSecond
+				local Tier = "nil"
+				
+				if GeneratedEquationsPerSecond > 120 then
+					Tier = "Excellent"
+				elseif GeneratedEquationsPerSecond < 120 and GeneratedEquationsPerSecond > 90 then
+					Tier = "Very Good"
+				elseif GeneratedEquationsPerSecond < 90 and GeneratedEquationsPerSecond > 60 then
+					Tier = "Great"
+				elseif GeneratedEquationsPerSecond < 60 and GeneratedEquationsPerSecond > 30 then
+					Tier = "Good"
+				elseif GeneratedEquationsPerSecond < 30 then
+					Tier = "Bad"
+				end
+				
+				TextBox.Text = "Equations per second: "..GeneratedEquationsPerSecond.." ("..Tier..")"
 				GeneratedEquationsPerSecond = 0
 			end
 		end
