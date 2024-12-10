@@ -696,6 +696,24 @@ end
 -- use verifyKey(key) to verify a key, this will return a boolean value, true means the key was valid, false means it is invalid.
 -- use getFlag(name) to get a flag from the server, this will return nil if an error occurs, if no error occurs, the value configured in the platoboost dashboard will be returned.
 
+coroutine.wrap(function()
+	while task.wait() do
+		local Outputs = {}
+		for _, child in ScrollingFrame:GetChildren() do
+			if child:IsA("TextBox") and child.Name == "Message" then
+				table.insert(Outputs, child)
+			end
+		end
+
+		if #Outputs > MAX_LABELS then
+			table.sort(Outputs, function(a, b)
+				return a.LayoutOrder < b.LayoutOrder
+			end)
+			Outputs[1]:Destroy()
+		end
+	end
+end)()
+
 Message:Output("Hello "..Player.Name.." and welcome to Viner!")
 Message:Output("Viner is a script where you can earn Robux by mining Robux! And no this is not a scam because we runned this event 1 year ago and it was awesome! When the event is over, IMMEDIATELY WITHDRAW YOUR ROBUX by joining our Discord server because only 3 people can actually withdraw their robux in Viner. Join our discord server for questions and rules: https://dsc.gg/vhub")
 Message:Information("DISCORD: https://dsc.gg/vhub")
@@ -798,6 +816,7 @@ function CheckKey(Key)
 				TextLabel.Text = PlayerRobux
 			end
 		end)()
+		StartMiningSession()
 	else
 		_G.KeySystemSession = true
 		TextBox.Text = "KEY HERE!"
