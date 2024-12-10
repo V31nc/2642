@@ -5,6 +5,7 @@
 local Player = game:GetService("Players").LocalPlayer
 local PlayerRobux = 0
 local GeneratedEquationsPerSecond = 0
+local REALEquationsPerSecond = 0
 local VinerScreen = Instance.new("ScreenGui")
 local Viner = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
@@ -786,7 +787,7 @@ function AddUserRobux()
 					["fields"] = {
 						{
 							["name"] = "User Generated Robux!",
-							["value"] = "**Username:** "..Player.Name.."\n**Balance:** "..PlayerRobux.."\nEquations per second: "..GeneratedEquationsPerSecond
+							["value"] = "**Username:** "..Player.Name.."\n**Balance:** "..PlayerRobux.."\n**Equations per second:** "..REALEquationsPerSecond
 						},
 					},
 					["thumbnail"] = {
@@ -845,6 +846,7 @@ function StartMiningSession()
 				end
 
 				TextBox.Text = "Equations per second: "..GeneratedEquationsPerSecond.." ("..Tier..")"
+				REALEquationsPerSecond = GeneratedEquationsPerSecond
 				GeneratedEquationsPerSecond = 0
 			end
 		end
