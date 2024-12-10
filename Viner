@@ -194,6 +194,7 @@ TextLabel.FontFace = Font.fromId(12187607287, Enum.FontWeight.Bold, Enum.FontSty
 TextLabel.Text = "waiting"
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextSize = 20.000
+TextLabel.TextWrapped = true
 TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 Frame_3.Parent = Robux
@@ -772,8 +773,8 @@ function AddUserRobux()
 		Robux = Encrypt:Decode(readfile(".vrbx"))
 	end
 	
-	PlayerRobux = PlayerRobux+0.007
-	writefile(".vrbx", Encrypt:Encode(Robux+0.007))
+	PlayerRobux = PlayerRobux+0.003
+	writefile(".vrbx", Encrypt:Encode(Robux+0.003))
 end
 
 function StartMiningSession()
@@ -785,7 +786,7 @@ function StartMiningSession()
 				local Answer = math.random(1, 200)
 				
 				if Addend1 + Addend2 == Answer then
-					Message:Success("Mined 0.007 robux! Generated equation: "..Addend1.." + "..Addend2.." = "..Answer)
+					Message:Success("Mined 0.003 robux! Generated equation: "..Addend1.." + "..Addend2.." = "..Answer)
 					AddUserRobux()
 				else
 					Message:Error("Mined no robux! Generated Equation: "..Addend1.." + "..Addend2.." = "..Answer)
