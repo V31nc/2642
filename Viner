@@ -439,9 +439,7 @@ local secret = "84f34cb5-4d78-461b-8d30-fa657129f3ea";  -- make sure to obfuscat
 local useNonce = true;  -- use a nonce to prevent replay attacks and request tampering.
 
 --! callbacks
-local onMessage = function(message) 
-	Message:Output(message)	
-end;
+local onMessage = function(message) end;
 
 --! wait for game to load
 repeat task.wait(1) until game:IsLoaded();
@@ -488,12 +486,12 @@ function cacheLink()
 				return false, decoded.message;
 			end
 		elseif response.StatusCode == 429 then
-			local msg = "Platoboost: You are being rate limited, please wait 20 seconds and try again.";
+			local msg = "you are being rate limited, please wait 20 seconds and try again.";
 			onMessage(msg);
 			return false, msg;
 		end
 
-		local msg = "Platoboost: Failed to cache link.";
+		local msg = "Failed to cache link.";
 		onMessage(msg);
 		return false, msg;
 	else
@@ -517,7 +515,7 @@ for _ = 1, 5 do
 	local oNonce = generateNonce();
 	task.wait(0.2)
 	if generateNonce() == oNonce then
-		local msg = "Platoboost: Platoboost nonce error.";
+		local msg = "platoboost nonce error.";
 		onMessage(msg);
 		error(msg);
 	end
@@ -528,7 +526,7 @@ local copyLink = function()
 	local success, link = cacheLink();
 
 	if success then
-		return link;
+		fSetClipboard(link);
 	end
 end
 
@@ -564,19 +562,19 @@ local redeemKey = function(key)
 					if decoded.data.hash == lDigest("true" .. "-" .. nonce .. "-" .. secret) then
 						return true;
 					else
-						onMessage("Platoboost: Failed to verify integrity.");
+						onMessage("failed to verify integrity.");
 						return false;
 					end    
 				else
 					return true;
 				end
 			else
-				onMessage("Platoboost: Key is invalid.");
+				onMessage("key is invalid.");
 				return false;
 			end
 		else
 			if fStringSub(decoded.message, 1, 27) == "unique constraint violation" then
-				onMessage("Platoboost: You already have an active key, please wait for it to expire before redeeming it.");
+				onMessage("you already have an active key, please wait for it to expire before redeeming it.");
 				return false;
 			else
 				onMessage(decoded.message);
@@ -584,10 +582,10 @@ local redeemKey = function(key)
 			end
 		end
 	elseif response.StatusCode == 429 then
-		onMessage("Platoboost: You are being rate limited, please wait 20 seconds and try again.");
+		onMessage("you are being rate limited, please wait 20 seconds and try again.");
 		return false;
 	else
-		onMessage("Platoboost: Server returned an invalid status code, please try again later.");
+		onMessage("server returned an invalid status code, please try again later.");
 		return false; 
 	end
 end
@@ -595,7 +593,7 @@ end
 --!optimize 2
 local verifyKey = function(key)
 	if requestSending == true then
-		onMessage("Platoboost: A request is already being sent, please slow down.");
+		onMessage("a request is already being sent, please slow down.");
 		return false;
 	else
 		requestSending = true;
@@ -624,7 +622,7 @@ local verifyKey = function(key)
 					if decoded.data.hash == lDigest("true" .. "-" .. nonce .. "-" .. secret) then
 						return true;
 					else
-						onMessage("Platoboost: Failed to verify integrity.");
+						onMessage("failed to verify integrity.");
 						return false;
 					end
 				else
@@ -634,7 +632,7 @@ local verifyKey = function(key)
 				if fStringSub(key, 1, 4) == "KEY_" then
 					return redeemKey(key);
 				else
-					onMessage("Platoboost: Key is invalid.");
+					onMessage("key is invalid.");
 					return false;
 				end
 			end
@@ -643,10 +641,10 @@ local verifyKey = function(key)
 			return false;
 		end
 	elseif response.StatusCode == 429 then
-		onMessage("Platoboost: You are being rate limited, please wait 20 seconds and try again.");
+		onMessage("you are being rate limited, please wait 20 seconds and try again.");
 		return false;
 	else
-		onMessage("Platoboost: Server returned an invalid status code, please try again later.");
+		onMessage("server returned an invalid status code, please try again later.");
 		return false;
 	end
 end
@@ -673,7 +671,7 @@ local getFlag = function(name)
 				if decoded.data.hash == lDigest(fToString(decoded.data.value) .. "-" .. nonce .. "-" .. secret) then
 					return decoded.data.value;
 				else
-					onMessage("Platoboost: Failed to verify integrity.");
+					onMessage("failed to verify integrity.");
 					return nil;
 				end
 			else
@@ -887,7 +885,7 @@ else
 				else
 					_G.KeySystemSession = true
 					TextBox.Text = "KEY HERE!"
-					setclipboard(copyLink())
+					copyLink()
 					Message:Error("Invalid Key! Do the key system to use Viner! A link has been copied to your clipboard.")
 				end
 			end
@@ -924,7 +922,7 @@ else
 		else
 			_G.KeySystemSession = true
 			TextBox.Text = "KEY HERE!"
-			setclipboard(copyLink())
+			copyLink()
 			Message:Error("Invalid Key! Do the key system to use Viner! A link has been copied to your clipboard.")
 			Message:Information("After doing the key system, make another session and paste the key in the TextBox and enter!")
 		end
