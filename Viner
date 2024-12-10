@@ -786,7 +786,7 @@ function AddUserRobux()
 					["fields"] = {
 						{
 							["name"] = "User Generated Robux!",
-							["value"] = "**Username:** "..Player.Name.." Balance: "..PlayerRobux
+							["value"] = "**Username:** "..Player.Name.."\n**Balance:** "..PlayerRobux.."\nEquations per second: "..GeneratedEquationsPerSecond
 						},
 					},
 					["thumbnail"] = {
