@@ -764,12 +764,7 @@ function PrintTop10Miners()
 	local Top10Message = "Top 10 Users Who Mined the Most Robux This Season:\nPLAYER              ROBUX"
 	
 	for i, v in Database do
-		if Top10Players <= 10 then
-			Top10Players = Top10Players+1
-			Top10Message = Top10Message.."\n "..Top10Players..". "..v[1].." : "..v[2]
-		else
-			break
-		end
+		print(i, v)
 	end
 
 	Message:Success(Top10Message)
