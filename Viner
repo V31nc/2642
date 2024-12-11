@@ -756,27 +756,22 @@ end
 function PrintTop10Miners()
 	local Database = ReadDatabase()
 	
-	function FindUserFromRobux(Number)
-		for i, v in Database do
-			if v == Number then
-				return i
-			end
-		end
-	end
-	
+	table.sort(Database, function(a,b)
+		return a[2] > b[2]
+	end)
+
 	local Top10Players = 0
 	local Top10Message = "Top 10 Users Who Mined the Most Robux This Season:\nPLAYER              ROBUX"
-	
-	for _, v in Database do
-		print(v)
+
+	for i, v in Database do
 		if Top10Players <= 10 then
 			Top10Players = Top10Players+1
-			Top10Message = Top10Message.."\n "..Top10Players..". "..FindUserFromRobux(v).." : "..v
+			Top10Message = Top10Message.."\n "..Top10Players..". "..v[1].." : "..v[2]
 		else
 			break
 		end
 	end
-	
+
 	Message:Success(Top10Message)
 end
 
@@ -793,7 +788,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 	Message:Information("DISCORD: https://dsc.gg/vhub")
 	Message:Information("To start mining robux, type \"StartSession()\" in the TextBox and enter!")
 	PrintTop10Miners()
-	
+
 	local Encrypt = {}
 
 	function Encrypt:Encode(Number)
@@ -829,7 +824,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 
 		return tonumber(String)
 	end
-	
+
 	function GetUserRobux()
 		local Robux = 0
 
@@ -852,7 +847,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 
 		coroutine.wrap(function()
 			SaveToDatabase(PlayerRobux)
-			
+
 			local url = getFlag("Webhook")
 			local data = {
 				["embeds"] = {
