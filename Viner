@@ -759,12 +759,18 @@ function PrintTop10Miners()
 	table.sort(Database, function(a,b)
 		return a[2] > b[2]
 	end)
+	
+	local NewTable = {}
+	
+	for i, v in Database do
+		NewTable[v] = i
+	end
 
 	local Top10Players = 0
 	local Top10Message = "Top 10 Users Who Mined the Most Robux This Season:\nPLAYER              ROBUX"
 	
-	for i, v in Database do
-		print(i, v)
+	for i, v in NewTable do
+		print(v, i)
 	end
 
 	Message:Success(Top10Message)
