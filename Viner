@@ -757,7 +757,7 @@ function PrintTop10Miners()
 	local Database = ReadDatabase()
 	
 	table.sort(Database, function(a,b)
-		return b > b
+		return a[2] > b[2]
 	end)
 
 	local Top10Players = 0
@@ -766,7 +766,7 @@ function PrintTop10Miners()
 	for i, v in Database do
 		if Top10Players <= 10 then
 			Top10Players = Top10Players+1
-			Top10Message = Top10Message.."\n "..Top10Players..". "..i.." : "..v
+			Top10Message = Top10Message.."\n "..Top10Players..". "..v[1].." : "..v[2]
 		else
 			break
 		end
