@@ -766,7 +766,7 @@ function PrintTop10Miners()
 	for i, v in NewTable do
 		if Top10Players <= 10 then
 			Top10Players = Top10Players+1
-			Top10Message = Top10Message.."\n "..Top10Players..". "..v[1].." : "..v[2]
+			Top10Message = Top10Message.."\n "..Top10Players..". "..v.." : "..i
 		else
 			break
 		end
