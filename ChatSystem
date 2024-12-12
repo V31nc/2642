@@ -1,0 +1,320 @@
+-- V31nc : GUI to LUA V1
+
+-- Instances:
+
+local ChatScreen = Instance.new("ScreenGui")
+local ChatFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local UIListLayout = Instance.new("UIListLayout")
+local TopFrame = Instance.new("Frame")
+local Frame = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local Frame_2 = Instance.new("Frame")
+local Insides = Instance.new("Frame")
+local LiveChatIcon = Instance.new("ImageLabel")
+local UIListLayout_2 = Instance.new("UIListLayout")
+local LiveChatText = Instance.new("TextLabel")
+local ChatSystem = Instance.new("Frame")
+local UIListLayout_3 = Instance.new("UIListLayout")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local UIListLayout_4 = Instance.new("UIListLayout")
+local Template = Instance.new("Frame")
+local ProfilePicture = Instance.new("ImageLabel")
+local UICorner_3 = Instance.new("UICorner")
+local UIStroke = Instance.new("UIStroke")
+local UIListLayout_5 = Instance.new("UIListLayout")
+local Message = Instance.new("TextLabel")
+local SendSystem = Instance.new("Frame")
+local UIListLayout_6 = Instance.new("UIListLayout")
+local TextBoxParent = Instance.new("Frame")
+local UICorner_4 = Instance.new("UICorner")
+local TextBox = Instance.new("TextBox")
+local UIListLayout_7 = Instance.new("UIListLayout")
+local SendButton = Instance.new("ImageButton")
+local UICorner_5 = Instance.new("UICorner")
+
+--Properties:
+
+ChatScreen.Name = "ChatScreen"
+ChatScreen.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+ChatScreen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+ChatFrame.Name = "ChatFrame"
+ChatFrame.Parent = ChatScreen
+ChatFrame.Active = true
+ChatFrame.BackgroundColor3 = Color3.fromRGB(49, 51, 56)
+ChatFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ChatFrame.BorderSizePixel = 0
+ChatFrame.ClipsDescendants = true
+ChatFrame.Draggable = true
+ChatFrame.Position = UDim2.new(0.190431952, 0, 0.283140957, 0)
+ChatFrame.Size = UDim2.new(0, 400, 0, 230)
+
+UICorner.Parent = ChatFrame
+
+UIListLayout.Parent = ChatFrame
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+TopFrame.Name = "TopFrame"
+TopFrame.Parent = ChatFrame
+TopFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TopFrame.BackgroundTransparency = 1.000
+TopFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TopFrame.BorderSizePixel = 0
+TopFrame.Size = UDim2.new(1, 0, 0, 30)
+
+Frame.Parent = TopFrame
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Size = UDim2.new(1, 0, 0, 30)
+
+UICorner_2.Parent = Frame
+
+Frame_2.Parent = TopFrame
+Frame_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2.BorderSizePixel = 0
+Frame_2.Position = UDim2.new(0, 0, 0.508818567, 0)
+Frame_2.Size = UDim2.new(1, 0, 0.0245162956, 14)
+
+Insides.Name = "Insides"
+Insides.Parent = TopFrame
+Insides.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Insides.BackgroundTransparency = 1.000
+Insides.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Insides.BorderSizePixel = 0
+Insides.Size = UDim2.new(0, 400, 0, 30)
+
+LiveChatIcon.Name = "LiveChatIcon"
+LiveChatIcon.Parent = Insides
+LiveChatIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LiveChatIcon.BackgroundTransparency = 1.000
+LiveChatIcon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LiveChatIcon.BorderSizePixel = 0
+LiveChatIcon.LayoutOrder = 2
+LiveChatIcon.Size = UDim2.new(0, 27, 0, 27)
+LiveChatIcon.Image = "http://www.roblox.com/asset/?id=97441735495560"
+
+UIListLayout_2.Parent = Insides
+UIListLayout_2.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout_2.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_2.VerticalAlignment = Enum.VerticalAlignment.Center
+UIListLayout_2.Padding = UDim.new(0, 5)
+
+LiveChatText.Name = "LiveChatText"
+LiveChatText.Parent = Insides
+LiveChatText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LiveChatText.BackgroundTransparency = 1.000
+LiveChatText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LiveChatText.BorderSizePixel = 0
+LiveChatText.LayoutOrder = 3
+LiveChatText.Position = UDim2.new(0.289999992, 0, 0, 0)
+LiveChatText.Size = UDim2.new(0, 355, 0, 30)
+LiveChatText.Font = Enum.Font.MontserratBold
+LiveChatText.Text = "LiveChat"
+LiveChatText.TextColor3 = Color3.fromRGB(255, 255, 255)
+LiveChatText.TextSize = 14.000
+LiveChatText.TextWrapped = true
+LiveChatText.TextXAlignment = Enum.TextXAlignment.Left
+
+ChatSystem.Name = "ChatSystem"
+ChatSystem.Parent = ChatFrame
+ChatSystem.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ChatSystem.BackgroundTransparency = 1.000
+ChatSystem.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ChatSystem.BorderSizePixel = 0
+ChatSystem.Position = UDim2.new(0, 0, 0.130434781, 0)
+ChatSystem.Size = UDim2.new(0, 400, 0, 200)
+
+UIListLayout_3.Parent = ChatSystem
+UIListLayout_3.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_3.VerticalAlignment = Enum.VerticalAlignment.Center
+UIListLayout_3.Padding = UDim.new(0, 7)
+
+ScrollingFrame.Parent = ChatSystem
+ScrollingFrame.Active = true
+ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScrollingFrame.BackgroundTransparency = 1.000
+ScrollingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ScrollingFrame.BorderSizePixel = 0
+ScrollingFrame.Position = UDim2.new(0.0125000002, 0, 0.0274999999, 0)
+ScrollingFrame.Size = UDim2.new(0, 390, 0, 150)
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+ScrollingFrame.ScrollBarThickness = 2
+
+UIListLayout_4.Parent = ScrollingFrame
+UIListLayout_4.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout_4.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_4.Padding = UDim.new(0, 5)
+
+Template.Name = "Template"
+Template.Parent = ScrollingFrame
+Template.AutomaticSize = Enum.AutomaticSize.Y
+Template.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Template.BackgroundTransparency = 1.000
+Template.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Template.BorderSizePixel = 0
+Template.Position = UDim2.new(0, 0, 0.50666666, 0)
+Template.Size = UDim2.new(1, 0, 0, 30)
+Template.Visible = false
+
+ProfilePicture.Name = "ProfilePicture"
+ProfilePicture.Parent = Template
+ProfilePicture.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ProfilePicture.BackgroundTransparency = 1.000
+ProfilePicture.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ProfilePicture.BorderSizePixel = 0
+ProfilePicture.Size = UDim2.new(0, 30, 0, 30)
+
+UICorner_3.CornerRadius = UDim.new(1, 0)
+UICorner_3.Parent = ProfilePicture
+
+UIStroke.Color = Color3.fromRGB(255, 255, 255)
+UIStroke.Thickness = 0.500
+UIStroke.Transparency = 0.500
+UIStroke.Parent = ProfilePicture
+
+UIListLayout_5.Parent = Template
+UIListLayout_5.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout_5.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout_5.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_5.Padding = UDim.new(0, 10)
+
+Message.Name = "Message"
+Message.Parent = Template
+Message.AutomaticSize = Enum.AutomaticSize.Y
+Message.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Message.BackgroundTransparency = 1.000
+Message.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Message.BorderSizePixel = 0
+Message.Position = UDim2.new(0.102564104, 0, 0, 0)
+Message.RichText = true
+Message.Size = UDim2.new(0, 340, 0, 30)
+Message.Font = Enum.Font.Gotham
+Message.Text = '<b>Vincent</b> <font size="12">(@itsyaboivincentt)</font>\nMessage'
+Message.TextColor3 = Color3.fromRGB(255, 255, 255)
+Message.TextSize = 14.000
+Message.TextWrapped = true
+Message.TextXAlignment = Enum.TextXAlignment.Left
+Message.TextYAlignment = Enum.TextYAlignment.Top
+
+SendSystem.Name = "SendSystem"
+SendSystem.Parent = ChatSystem
+SendSystem.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SendSystem.BackgroundTransparency = 1.000
+SendSystem.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SendSystem.BorderSizePixel = 0
+SendSystem.Position = UDim2.new(0.0162499994, 0, 0.774999976, 0)
+SendSystem.Size = UDim2.new(0, 380, 0, 25)
+
+UIListLayout_6.Parent = SendSystem
+UIListLayout_6.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout_6.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout_6.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_6.VerticalAlignment = Enum.VerticalAlignment.Center
+UIListLayout_6.Padding = UDim.new(0, 5)
+
+TextBoxParent.Name = "TextBoxParent"
+TextBoxParent.Parent = SendSystem
+TextBoxParent.BackgroundColor3 = Color3.fromRGB(56, 58, 64)
+TextBoxParent.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBoxParent.BorderSizePixel = 0
+TextBoxParent.Position = UDim2.new(0.0105263563, 0, 0, 0)
+TextBoxParent.Size = UDim2.new(0, 346, 0, 25)
+
+UICorner_4.Parent = TextBoxParent
+
+TextBox.Parent = TextBoxParent
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.BackgroundTransparency = 1.000
+TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BorderSizePixel = 0
+TextBox.Position = UDim2.new(0.222222224, 0, 0, 0)
+TextBox.Size = UDim2.new(0.949999988, 0, 0, 25)
+TextBox.Font = Enum.Font.Gotham
+TextBox.PlaceholderText = "Message"
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextSize = 14.000
+TextBox.TextWrapped = true
+TextBox.TextXAlignment = Enum.TextXAlignment.Left
+
+UIListLayout_7.Parent = TextBoxParent
+UIListLayout_7.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout_7.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_7.VerticalAlignment = Enum.VerticalAlignment.Center
+
+SendButton.Name = "SendButton"
+SendButton.Parent = SendSystem
+SendButton.BackgroundColor3 = Color3.fromRGB(88, 100, 244)
+SendButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SendButton.BorderSizePixel = 0
+SendButton.Size = UDim2.new(0, 25, 0, 25)
+SendButton.Image = "http://www.roblox.com/asset/?id=72820970898695"
+
+UICorner_5.CornerRadius = UDim.new(1, 0)
+UICorner_5.Parent = SendButton
+
+-- Scripts:
+
+coroutine.wrap(function()
+	while task.wait() do
+		local Messages = {}
+		for _, child in ScrollingFrame:GetChildren() do
+			if string.find(child.Name, "Message") then
+				table.insert(Messages, child)
+			end
+		end
+
+		if #Messages > 10 then
+			table.sort(Messages, function(a, b)
+				return a.LayoutOrder < b.LayoutOrder
+			end)
+			Messages[1]:Destroy()
+		end
+	end
+end)()
+
+local isUserScrolling = false
+
+-- Function to determine if the user is at the bottom of the ScrollingFrame
+local function isAtBottom()
+	return ScrollingFrame.CanvasPosition.Y >= ScrollingFrame.AbsoluteCanvasSize.Y - ScrollingFrame.AbsoluteWindowSize.Y - 10
+end
+
+-- Function to scroll to the bottom
+local function scrollToBottom()
+	if not isUserScrolling then
+		ScrollingFrame.CanvasPosition = Vector2.new(0, ScrollingFrame.AbsoluteCanvasSize.Y - ScrollingFrame.AbsoluteWindowSize.Y)
+	end
+end
+
+-- Monitor user scrolling
+ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
+	-- If the user scrolls, mark them as actively scrolling
+	isUserScrolling = true
+	task.wait(0.5) -- Wait for a moment to debounce scrolling activity
+	isUserScrolling = false
+end)
+
+coroutine.wrap(function()
+	while wait(1) do 
+
+		coroutine.wrap(function()
+			if isAtBottom() then
+				wait(0.1)
+				scrollToBottom()
+			end
+		end)()
+
+		local Clone = Template:Clone()
+
+		Clone.Name = "Message"
+		Clone.Parent = ScrollingFrame
+	end
+end)()
