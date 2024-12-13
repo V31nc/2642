@@ -369,7 +369,7 @@ coroutine.wrap(function()
 
 		if LoadedMessagesInDatabase > DisplayedMessage then
 			DisplayedMessage = DisplayedMessage+1
-			DisplayMessage(DisplayedMessage, ChatTable[DisplayedMessage].DisplayName, ChatTable[DisplayedMessage].Username, ChatTable[DisplayedMessage].Time, ChatTable[DisplayedMessage].Message)
+			print(ChatTable[DisplayedMessage].Message)
 		end
 	end
 end)()
