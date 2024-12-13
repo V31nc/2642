@@ -309,12 +309,25 @@ function DisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 	end)()
 
 	local Clone = Template:Clone()
-
+	local IsVerified = false
+	local VerifiedHWIDS = loadstring(game:HttpGet("https://raw.githubusercontent.com/V31nc/On-Discord/Created/VexConsole"))()
+	
 	Clone.Name = "Message"..MessageNumber
 	Clone.Parent = ScrollingFrame
-	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
 	Clone.Visible = true
 	Clone.ProfilePicture.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
+	
+	for i, v in VerifiedHWIDS do
+		if v == gethwid() then
+			IsVerified = true
+		end
+	end
+	
+	if IsVerified == false then
+		Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
+	else
+		Clone.Message.Text = '<b>  '..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
+	end
 end
 
 function PostMessage(MessageNumber, DisplayName, Username, Date, Message)
