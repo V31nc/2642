@@ -230,6 +230,7 @@ TextBoxParent.Size = UDim2.new(0, 346, 0, 25)
 UICorner_4.Parent = TextBoxParent
 
 TextBox.Parent = TextBoxParent
+TextBox.ClearTextOnFocus = false
 TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 TextBox.BackgroundTransparency = 1.000
 TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -350,36 +351,38 @@ end
 
 function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 	coroutine.wrap(function()
-		if isAtBottom() then
-			wait(0.1)
-			scrollToBottom()
-		end
-	end)()
+		coroutine.wrap(function()
+			if isAtBottom() then
+				wait(0.1)
+				scrollToBottom()
+			end
+		end)()
 
-	local Clone = Template:Clone()
+		local Clone = Template:Clone()
 
-	Clone.Name = "Temporary"..MessageNumber
-	Clone.Parent = ScrollingFrame
-	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n<font color="rgb(150,150,150)">'..Message..'</font>'
-	Clone.Visible = true
-	Clone.ProfilePicture.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
+		Clone.Name = "Temporary"..MessageNumber
+		Clone.Parent = ScrollingFrame
+		Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n<font color="rgb(150,150,150)">'..Message..'</font>'
+		Clone.Visible = true
+		Clone.ProfilePicture.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
 
-	PostMessage(MessageNumber, DisplayName, Username, Date, Message)
+		PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 
-	function CheckForMessageFromUser(Username, Message)
-		for i, v in ScrollingFrame:GetChildren() do
-			if string.find(v.Name, "Message") then
-				if string.find(v.Message.Text, Message) and string.find(v.Message.text, Username) then
-					return true
+		function CheckForMessageFromUser(Username, Message)
+			for i, v in ScrollingFrame:GetChildren() do
+				if string.find(v.Name, "Message") then
+					if string.find(v.Message.Text, Message) and string.find(v.Message.text, Username) then
+						return true
+					end
 				end
 			end
 		end
-	end
 
-	repeat
-		wait()
-	until CheckForMessageFromUser(Username, Message) == true
-	Clone:Destroy()
+		repeat
+			wait()
+		until CheckForMessageFromUser(Username, Message) == true
+		Clone:Destroy()
+	end)()
 end
 
 function ReadMessageHistory()
@@ -414,13 +417,13 @@ SendButton.MouseButton1Down:Connect(function()
 	local Player = game:GetService("Players").LocalPlayer
 	local TextBoxTable = string.split(TextBox.ContentText, "")
 	local AllSpace = true
-	
+
 	for i, v in TextBoxTable do
 		if v ~= "" and v ~= " " then
 			AllSpace = false
 		end
 	end
-	
+
 	if AllSpace == false then
 		TemporaryDisplayMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
 		TextBox.Text = ""
