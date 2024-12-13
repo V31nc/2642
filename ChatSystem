@@ -36,7 +36,7 @@ local UICorner_5 = Instance.new("UICorner")
 --Properties:
 
 ChatScreen.Name = "ChatScreen"
-ChatScreen.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+ChatScreen.Parent = game:GetService("CoreGui")
 ChatScreen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 ChatFrame.Name = "ChatFrame"
