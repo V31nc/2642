@@ -390,7 +390,16 @@ function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Mes
 				end
 			end
 		end
-
+		
+		coroutine.wrap(function()
+			wait(5)
+			if (Clone) then
+				wait()
+			else
+				Clone:Destroy()
+			end
+		end)()
+		
 		repeat
 			wait()
 		until CheckForMessageFromUser(Username, Message) == true
@@ -435,6 +444,12 @@ function CreateMessage()
 		if v ~= "" and v ~= " " then
 			AllSpace = false
 		end
+	end
+	
+	if string.len(TextBox.ContentText) > 1000 then
+		TextBox.Text = "Message too long!"
+		wait(1)
+		TextBox.Text = ""
 	end
 
 	if AllSpace == false then
