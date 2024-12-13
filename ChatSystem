@@ -299,7 +299,7 @@ ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
 	isUserScrolling = false
 end)
 
-function DisplayMessage(MessageNumber, DisplayName, Username, Time, Message)
+function DisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 	coroutine.wrap(function()
 		if isAtBottom() then
 			wait(0.1)
@@ -311,11 +311,11 @@ function DisplayMessage(MessageNumber, DisplayName, Username, Time, Message)
 
 	Clone.Name = "Message"..MessageNumber
 	Clone.Parent = ScrollingFrame
-	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Time..'</font> \n'..Message
+	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
 	Clone.Visible = true
 end
 
-function PostMessage(DisplayName, Username, Time, Message)
+function PostMessage(DisplayName, Username, Date, Message)
 	local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
 	local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
 	local Folder = "LiveChat" --You can change the parent or the location of the data
@@ -335,7 +335,7 @@ function PostMessage(DisplayName, Username, Time, Message)
 	table.insert(Table, {
 		DisplayName = DisplayName,
 		Username = Username,
-		Time = Time,
+		Date = Date,
 		Message = Message,
 	})
 
@@ -369,7 +369,7 @@ coroutine.wrap(function()
 
 		if LoadedMessagesInDatabase > DisplayedMessage then
 			DisplayedMessage = DisplayedMessage+1
-			DisplayMessage(DisplayedMessage, ChatTable[DisplayedMessage].DisplayName, ChatTable[DisplayedMessage].Username, ChatTable[DisplayedMessage].Time, ChatTable[DisplayedMessage].Message)
+			DisplayMessage(DisplayedMessage, ChatTable[DisplayedMessage].DisplayName, ChatTable[DisplayedMessage].Username, ChatTable[DisplayedMessage].Date, ChatTable[DisplayedMessage].Message)
 		end
 	end
 end)()
