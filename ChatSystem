@@ -364,9 +364,13 @@ coroutine.wrap(function()
 		for i, v in ReadMessageHistory() do
 			LoadedMessagesInDatabase = LoadedMessagesInDatabase+1
 		end
+		wait()
 
 		if LoadedMessagesInDatabase > DisplayedMessage then
 			DisplayedMessage = DisplayedMessage+1
+			for i, v in ReadMessageHistory()[DisplayedMessage] do 
+				print(i, v)
+			end
 			DisplayMessage(DisplayedMessage, ReadMessageHistory()[DisplayedMessage].DisplayName, ReadMessageHistory()[DisplayedMessage].Username, ReadMessageHistory()[DisplayedMessage].Time, ReadMessageHistory()[DisplayedMessage].Message)
 		end
 	end
