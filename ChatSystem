@@ -360,18 +360,19 @@ local DisplayedMessage = 0
 
 coroutine.wrap(function()
 	while wait() do
+		local ChatTable = ReadMessageHistory()
 		local LoadedMessagesInDatabase = 0
-		for i, v in ReadMessageHistory() do
+		for i, v in ChatTable do
 			LoadedMessagesInDatabase = LoadedMessagesInDatabase+1
 		end
 		wait()
 
 		if LoadedMessagesInDatabase > DisplayedMessage then
 			DisplayedMessage = DisplayedMessage+1
-			for i, v in ReadMessageHistory()[DisplayedMessage] do 
+			for i, v in ChatTable[DisplayedMessage] do 
 				print(i, v)
 			end
-			DisplayMessage(DisplayedMessage, ReadMessageHistory()[DisplayedMessage].DisplayName, ReadMessageHistory()[DisplayedMessage].Username, ReadMessageHistory()[DisplayedMessage].Time, ReadMessageHistory()[DisplayedMessage].Message)
+			DisplayMessage(DisplayedMessage, ChatTable[DisplayedMessage].DisplayName, ChatTable[DisplayedMessage].Username, ChatTable[DisplayedMessage].Time, ChatTable[DisplayedMessage].Message)
 		end
 	end
 end)()
