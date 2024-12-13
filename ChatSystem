@@ -356,12 +356,12 @@ function ReadMessageHistory()
 	return data.LiveChat
 end
 
-local DisplayedMessage = 0
+local DisplayedMessage = 1
 
 coroutine.wrap(function()
 	while wait() do
 		local ChatTable = ReadMessageHistory()
-		local LoadedMessagesInDatabase = 0
+		local LoadedMessagesInDatabase = 1
 		for i, v in ChatTable do
 			LoadedMessagesInDatabase = LoadedMessagesInDatabase+1
 		end
@@ -369,10 +369,6 @@ coroutine.wrap(function()
 
 		if LoadedMessagesInDatabase > DisplayedMessage then
 			DisplayedMessage = DisplayedMessage+1
-			print(ChatTable[DisplayedMessage])
-			for i, v in ChatTable do 
-				print(i)
-			end
 			DisplayMessage(DisplayedMessage, ChatTable[DisplayedMessage].DisplayName, ChatTable[DisplayedMessage].Username, ChatTable[DisplayedMessage].Time, ChatTable[DisplayedMessage].Message)
 		end
 	end
