@@ -310,7 +310,7 @@ function DisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 
 	local Clone = Template:Clone()
 	local IsVerified = false
-	local VerifiedHWIDS = loadstring(game:HttpGet("https://raw.githubusercontent.com/V31nc/2642/refs/heads/Created/ChatSystemVerifiedHWIDS"))()
+	local VerifiedHWIDS = loadstring(game:HttpGet("https://raw.githubusercontent.com/V31nc/2642/Created/ChatSystemVerifiedHWIDS"))()
 	
 	Clone.Name = "Message"..MessageNumber
 	Clone.Parent = ScrollingFrame
@@ -324,7 +324,7 @@ function DisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 	end
 	
 	if IsVerified == false then
-		Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
+		Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="10">(@'..Username..') '..Date..'</font> \n'..Message
 	else
 		Clone.Message.Text = utf8.char("0xE000")..' <b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
 	end
