@@ -369,8 +369,9 @@ coroutine.wrap(function()
 
 		if LoadedMessagesInDatabase > DisplayedMessage then
 			DisplayedMessage = DisplayedMessage+1
-			for i, v in ChatTable[DisplayedMessage] do 
-				print(i, v)
+			print(ChatTable[DisplayedMessage])
+			for i, v in ChatTable do 
+				print(i)
 			end
 			DisplayMessage(DisplayedMessage, ChatTable[DisplayedMessage].DisplayName, ChatTable[DisplayedMessage].Username, ChatTable[DisplayedMessage].Time, ChatTable[DisplayedMessage].Message)
 		end
