@@ -323,14 +323,6 @@ function PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 	local database = URL..Folder..".json?auth="..Secret
 	local request = request or syn.request
 	local Table = {}
-
-	if game.HttpService:JSONDecode(game:HttpGetAsync(database)) ~= nil then
-		for key, value in pairs(game.HttpService:JSONDecode(game:HttpGetAsync(database))) do
-			if key then
-				Table[key] = value
-			end
-		end
-	end
 	
 	print(MessageNumber)
 	
