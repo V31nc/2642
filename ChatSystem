@@ -331,7 +331,9 @@ function PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 			end
 		end
 	end
-
+	
+	print(MessageNumber)
+	
 	Table[MessageNumber] = {
 		DisplayName = DisplayName,
 		Username = Username,
