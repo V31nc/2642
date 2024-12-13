@@ -196,7 +196,7 @@ Message.Position = UDim2.new(0.102564104, 0, 0, 0)
 Message.RichText = true
 Message.Size = UDim2.new(0, 340, 0, 30)
 Message.Font = Enum.Font.Gotham
-Message.Text = '<b>Vincent</b> <font size="12">(@itsyaboivincentt)</font>\nMessage'
+Message.Text = '<b>Vincent</b> <font size="12">(@itsyaboivincentt)</font> <font size="10">11/26/24 20:40:27PM PST</font> \nMessage'
 Message.TextColor3 = Color3.fromRGB(255, 255, 255)
 Message.TextSize = 14.000
 Message.TextWrapped = true
@@ -282,19 +282,16 @@ end)()
 
 local isUserScrolling = false
 
--- Function to determine if the user is at the bottom of the ScrollingFrame
 local function isAtBottom()
 	return ScrollingFrame.CanvasPosition.Y >= ScrollingFrame.AbsoluteCanvasSize.Y - ScrollingFrame.AbsoluteWindowSize.Y - 10
 end
 
--- Function to scroll to the bottom
 local function scrollToBottom()
 	if not isUserScrolling then
 		ScrollingFrame.CanvasPosition = Vector2.new(0, ScrollingFrame.AbsoluteCanvasSize.Y - ScrollingFrame.AbsoluteWindowSize.Y)
 	end
 end
 
--- Monitor user scrolling
 ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
 	-- If the user scrolls, mark them as actively scrolling
 	isUserScrolling = true
@@ -302,19 +299,83 @@ ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
 	isUserScrolling = false
 end)
 
-coroutine.wrap(function()
-	while wait(1) do 
+function DisplayMessage(MessageNumber, DisplayName, Username, Time, Message)
+	coroutine.wrap(function()
+		if isAtBottom() then
+			wait(0.1)
+			scrollToBottom()
+		end
+	end)()
 
-		coroutine.wrap(function()
-			if isAtBottom() then
-				wait(0.1)
-				scrollToBottom()
+	local Clone = Template:Clone()
+
+	Clone.Name = "Message"..MessageNumber
+	Clone.Parent = ScrollingFrame
+	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Time..'</font> \n'..Message
+	Clone.Visible = true
+end
+
+function PostMessage(DisplayName, Username, Time, Message)
+	local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
+	local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
+	local Folder = "LiveChat" --You can change the parent or the location of the data
+
+	local database = URL..Folder..".json?auth="..Secret
+	local request = request or syn.request
+	local Table = {}
+
+	if game.HttpService:JSONDecode(game:HttpGetAsync(database)) ~= nil then
+		for key, value in pairs(game.HttpService:JSONDecode(game:HttpGetAsync(database))) do
+			if key then
+				Table[key] = value
 			end
-		end)()
+		end
+	end
 
-		local Clone = Template:Clone()
+	table.insert(Table, {
+		DisplayName = DisplayName,
+		Username = Username,
+		Time = Time,
+		Message = Message,
+	})
 
-		Clone.Name = "Message"
-		Clone.Parent = ScrollingFrame
+	local send = request({
+		Url = database,
+		Method = "PUT",
+		Headers = {["Content-Type"] = "application/json"},
+		Body = game.HttpService:JSONEncode(Table)
+	})
+end
+
+function ReadMessageHistory()
+	local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
+	local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
+	local database = URL..".json?auth="..Secret
+	local data = game.HttpService:JSONDecode(game:HttpGetAsync(database))
+
+	return data.LiveChat
+end
+
+local DisplayedMessage = 0
+
+coroutine.wrap(function()
+	while wait() do
+		local LoadedMessagesInDatabase = 0
+		for i, v in ReadMessageHistory() do
+			LoadedMessagesInDatabase = LoadedMessagesInDatabase+1
+		end
+
+		if LoadedMessagesInDatabase > DisplayedMessage then
+			DisplayedMessage = DisplayedMessage+1
+			DisplayMessage(DisplayedMessage, ReadMessageHistory()[DisplayedMessage].DisplayName, ReadMessageHistory()[DisplayedMessage].Username, ReadMessageHistory()[DisplayedMessage].Time, ReadMessageHistory()[DisplayedMessage].Message)
+		end
 	end
 end)()
+
+SendButton.MouseButton1Down:Connect(function()
+	local Player = game:GetService("Players").LocalPlayer
+	if TextBox.ContentText ~= "" or TextBox.Text ~= " " then
+		PostMessage(Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
+		TextBox.Text = ""
+	end
+end)
