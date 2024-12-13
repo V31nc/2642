@@ -412,9 +412,16 @@ end)()
 
 SendButton.MouseButton1Down:Connect(function()
 	local Player = game:GetService("Players").LocalPlayer
-	if TextBox.ContentText == "" or TextBox.ContentText == " " then
-		TextBox.Text = ""
-	else
+	local TextBoxTable = string.split(TextBox.ContentText, "")
+	local AllSpace = true
+	
+	for i, v in TextBoxTable do
+		if v ~= "" and v ~= " " then
+			AllSpace = false
+		end
+	end
+	
+	if AllSpace == false then
 		TemporaryDisplayMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
 		TextBox.Text = ""
 	end
