@@ -299,6 +299,8 @@ ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
 	isUserScrolling = false
 end)
 
+local DisplayedMessage = 1
+
 function DisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 	coroutine.wrap(function()
 		if isAtBottom() then
@@ -332,12 +334,12 @@ function PostMessage(DisplayName, Username, Date, Message)
 		end
 	end
 
-	table.insert(Table, {
+	Table[DisplayedMessage] = {
 		DisplayName = DisplayName,
 		Username = Username,
 		Date = Date,
 		Message = Message,
-	})
+	}
 
 	local send = request({
 		Url = database,
@@ -356,8 +358,6 @@ function ReadMessageHistory()
 	return data.LiveChat
 end
 
-local DisplayedMessage = 1
-
 coroutine.wrap(function()
 	while wait() do
 		local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
@@ -374,7 +374,7 @@ coroutine.wrap(function()
 
 		if LoadedMessagesInDatabase > DisplayedMessage then
 			DisplayedMessage = DisplayedMessage+1
-			wait(10)
+			wait(0.5)
 			print(ChatTable[DisplayedMessage].Message)
 			DisplayMessage(DisplayedMessage, ChatTable[DisplayedMessage].DisplayName, ChatTable[DisplayedMessage].Username, ChatTable[DisplayedMessage].Date, ChatTable[DisplayedMessage].Message)
 		end
