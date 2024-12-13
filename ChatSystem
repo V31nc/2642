@@ -326,7 +326,7 @@ function DisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 	if IsVerified == false then
 		Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
 	else
-		Clone.Message.Text = utf8.char("0xE000")..' <b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
+		Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..' (✅ HWID Verified)</font> \n'..Message
 	end
 end
 
