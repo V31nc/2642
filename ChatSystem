@@ -272,7 +272,7 @@ coroutine.wrap(function()
 			end
 		end
 
-		if #Messages > 10 then
+		if #Messages > 1000 then
 			table.sort(Messages, function(a, b)
 				return a.LayoutOrder < b.LayoutOrder
 			end)
