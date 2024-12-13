@@ -360,7 +360,7 @@ function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Mes
 
 	Clone.Name = "Temporary"..MessageNumber
 	Clone.Parent = ScrollingFrame
-	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n<font color="rgb(200,200,200)">'..Message..'</font>'
+	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n<font color="rgb(150,150,150)">'..Message..'</font>'
 	Clone.Visible = true
 	Clone.ProfilePicture.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
 
@@ -412,7 +412,9 @@ end)()
 
 SendButton.MouseButton1Down:Connect(function()
 	local Player = game:GetService("Players").LocalPlayer
-	if TextBox.ContentText ~= "" or TextBox.ContentText ~= " " then
+	if TextBox.ContentText == "" or TextBox.ContentText == " " then
+		TextBox.Text = ""
+	else
 		TemporaryDisplayMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
 		TextBox.Text = ""
 	end
