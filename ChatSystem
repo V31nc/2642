@@ -313,6 +313,7 @@ function DisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 	Clone.Parent = ScrollingFrame
 	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n'..Message
 	Clone.Visible = true
+	Clone.ProfilePicture = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
 end
 
 function PostMessage(MessageNumber, DisplayName, Username, Date, Message)
@@ -331,9 +332,7 @@ function PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 			end
 		end
 	end
-	
-	print(MessageNumber)
-	
+
 	Table["Message"..MessageNumber] = {
 		DisplayName = DisplayName,
 		Username = Username,
@@ -349,6 +348,40 @@ function PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 	})
 end
 
+function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
+	coroutine.wrap(function()
+		if isAtBottom() then
+			wait(0.1)
+			scrollToBottom()
+		end
+	end)()
+
+	local Clone = Template:Clone()
+
+	Clone.Name = "Temporary"..MessageNumber
+	Clone.Parent = ScrollingFrame
+	Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="12">(@'..Username..')</font> <font size="10">'..Date..'</font> \n<font color="rgb(200,200,200)">'..Message..'</font>'
+	Clone.Visible = true
+	Clone.ProfilePicture = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
+
+	PostMessage(MessageNumber, DisplayName, Username, Date, Message)
+
+	function CheckForMessageFromUser(Username, Message)
+		for i, v in ScrollingFrame:GetChildren() do
+			if string.find(v.Name, "Message") then
+				if string.find(v.Message.Text, Message) and string.find(v.Message.text, Username) then
+					return true
+				end
+			end
+		end
+	end
+
+	repeat
+		wait()
+	until CheckForMessageFromUser(Username, Message) == true
+	Clone:Destroy()
+end
+
 function ReadMessageHistory()
 	local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
 	local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
@@ -362,12 +395,7 @@ local DisplayedMessage = 0
 
 coroutine.wrap(function()
 	while wait() do
-		local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
-		local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
-		local database = URL..".json?auth="..Secret
-		local data = game.HttpService:JSONDecode(game:HttpGetAsync(database))
-
-		local ChatTable = data.LiveChat
+		local ChatTable = ReadMessageHistory()
 		local LoadedMessagesInDatabase = 0
 		for i, v in ChatTable do
 			LoadedMessagesInDatabase = LoadedMessagesInDatabase+1
@@ -385,7 +413,7 @@ end)()
 SendButton.MouseButton1Down:Connect(function()
 	local Player = game:GetService("Players").LocalPlayer
 	if TextBox.ContentText ~= "" or TextBox.ContentText ~= " " then
-		PostMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
+		TemporaryDisplayMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
 		TextBox.Text = ""
 	end
 end)
