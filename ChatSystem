@@ -323,10 +323,18 @@ function PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 	local database = URL..Folder..".json?auth="..Secret
 	local request = request or syn.request
 	local Table = {}
+
+	if game.HttpService:JSONDecode(game:HttpGetAsync(database)) ~= nil then
+		for key, value in pairs(game.HttpService:JSONDecode(game:HttpGetAsync(database))) do
+			if key then
+				Table[key] = value
+			end
+		end
+	end
 	
 	print(MessageNumber)
 	
-	Table[MessageNumber] = {
+	Table["Message"..MessageNumber] = {
 		DisplayName = DisplayName,
 		Username = Username,
 		Date = Date,
@@ -350,7 +358,7 @@ function ReadMessageHistory()
 	return data.LiveChat
 end
 
-local DisplayedMessage = 1
+local DisplayedMessage = 0
 
 coroutine.wrap(function()
 	while wait() do
@@ -360,7 +368,7 @@ coroutine.wrap(function()
 		local data = game.HttpService:JSONDecode(game:HttpGetAsync(database))
 
 		local ChatTable = data.LiveChat
-		local LoadedMessagesInDatabase = 1
+		local LoadedMessagesInDatabase = 0
 		for i, v in ChatTable do
 			LoadedMessagesInDatabase = LoadedMessagesInDatabase+1
 		end
@@ -368,8 +376,8 @@ coroutine.wrap(function()
 
 		if LoadedMessagesInDatabase > DisplayedMessage then
 			DisplayedMessage = DisplayedMessage+1
-			print(ChatTable[DisplayedMessage].Message)
-			DisplayMessage(DisplayedMessage, ChatTable[DisplayedMessage].DisplayName, ChatTable[DisplayedMessage].Username, ChatTable[DisplayedMessage].Date, ChatTable[DisplayedMessage].Message)
+			local MessagePath = ChatTable["Message"..DisplayedMessage]
+			DisplayMessage(DisplayedMessage, MessagePath.DisplayName, MessagePath.Username, MessagePath.Date, MessagePath.Message)
 		end
 	end
 end)()
