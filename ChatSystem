@@ -1,4 +1,4 @@
-if game.PlaceId == "82804756123758" then
+if game.PlaceId == 82804756123758 then
 	game:GetService("ReplicatedStorage").RemoteEvent:FireServer(gethwid())
 else
 	local ChatScreen = Instance.new("ScreenGui")
