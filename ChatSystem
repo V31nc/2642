@@ -306,13 +306,17 @@ else
 
 		return data.VerifiedHWID
 	end
+	
+	function CheckIfPlayerIsVerified()
+		local IsUserVerified = false
 
-	local IsUserVerified = false
-
-	for i, v in ReadVerifiedHWID() do
-		if v["Player"] == Player.Name and v["HWID"] == gethwid() then
-			IsUserVerified = true
+		for i, v in ReadVerifiedHWID() do
+			if v["Player"] == Player.Name and v["HWID"] == gethwid() then
+				IsUserVerified = true
+			end
 		end
+		
+		return IsUserVerified
 	end
 	
 	function DisplaySystemMessage(Message)
@@ -415,7 +419,7 @@ else
 
 			scrollToBottom()
 
-			if IsUserVerified == true then
+			if CheckIfPlayerIsVerified() == true then
 				PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 
 				repeat
@@ -478,7 +482,7 @@ else
 		end
 
 		if AllSpace == false then
-			if TextBox.ContentText == "/verify" and IsUserVerified == false then
+			if TextBox.ContentText == "/verify" and CheckIfPlayerIsVerified() == false then
 				DisplaySystemMessage("@"..Player.Name.." Teleporting...")
 				game:GetService("TeleportService"):Teleport(82804756123758)
 			else
