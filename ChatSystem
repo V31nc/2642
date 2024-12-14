@@ -325,7 +325,7 @@ else
 		Clone.Message.Text = utf8.char("0xE000")..' <b>System</b> <font size="10">(@System) '..os.date("%x %X%p %Z")..'</font> \n'..Message
 
 		for i, v in string.split(Message, " ") do
-			if string.find(v, "@"..Player.Name) then
+			if string.find(v, "@"..Player.Name) or string.find(v, "@"..Player.DisplayName) then
 				Clone.BackgroundTransparency = 0
 				Clone.BackgroundColor3 = Color3.fromRGB(68, 64, 55)
 				scrollToBottom()
@@ -447,6 +447,7 @@ else
 	for i, v in ipairs(ReadMessageHistory()) do
 		DisplayMessage(string.split(i, "Message")[2], v["DisplayName"], v["Username"], v["Date"], v["Message"])
 		DisplayedMessage = DisplayedMessage+1
+		wait()
 	end
 	wait()
 	DisplaySystemMessage("Chat loaded successfully! Welcome @"..Player.DisplayName.."!")
