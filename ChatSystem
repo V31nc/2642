@@ -306,28 +306,24 @@ else
 
 		return data.VerifiedHWID
 	end
-	
-	function CheckIfPlayerIsVerified()
-		local IsUserVerified = false
 
-		for i, v in ReadVerifiedHWID() do
-			if v["Player"] == Player.Name and v["HWID"] == gethwid() then
-				IsUserVerified = true
-			end
+	local IsUserVerified = false
+
+	for i, v in ReadVerifiedHWID() do
+		if v["Player"] == Player.Name and v["HWID"] == gethwid() then
+			IsUserVerified = true
 		end
-		
-		return IsUserVerified
 	end
-	
+
 	function DisplaySystemMessage(Message)
 		local Clone = Template:Clone()
-		
+
 		Clone.Name = "System"
 		Clone.Parent = ScrollingFrame
 		Clone.Visible = true
 		Clone.ProfilePicture.Image = "rbxassetid://14586188666"
 		Clone.Message.Text = utf8.char("0xE000")..' <b>System</b> <font size="10">(@System) '..os.date("%x %X%p %Z")..'</font> \n'..Message
-		
+
 		for i, v in string.split(Message, " ") do
 			if string.find(v, "@"..Player.Name) then
 				Clone.BackgroundTransparency = 0
@@ -359,7 +355,7 @@ else
 				IsVerified = true
 			end
 		end
-		
+
 		for i, v in string.split(Message, " ") do
 			if string.find(v, "@"..Player.Name) then
 				Clone.BackgroundTransparency = 0
@@ -419,7 +415,7 @@ else
 
 			scrollToBottom()
 
-			if CheckIfPlayerIsVerified() == true then
+			if IsUserVerified == true then
 				PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 
 				repeat
@@ -447,7 +443,13 @@ else
 	end
 
 	local DisplayedMessage = 0
-
+	
+	for i, v in ReadMessageHistory() do
+		DisplayMessage(string.split(i, "Message")[2], v["DisplayName"], v["Username"], v["Date"], v["Message"])
+		DisplayedMessage = DisplayedMessage+1
+	end
+	wait()
+	
 	coroutine.wrap(function()
 		while wait() do
 			local ChatTable = ReadMessageHistory()
@@ -482,7 +484,7 @@ else
 		end
 
 		if AllSpace == false then
-			if TextBox.ContentText == "/verify" and CheckIfPlayerIsVerified() == false then
+			if TextBox.ContentText == "/verify" and IsUserVerified == false then
 				DisplaySystemMessage("@"..Player.Name.." Teleporting...")
 				game:GetService("TeleportService"):Teleport(82804756123758)
 			else
