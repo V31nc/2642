@@ -400,6 +400,7 @@ function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Mes
 		if IsUserVerified == true then
 			PostMessage(MessageNumber, DisplayName, Username, Date, Message)
 		else
+			wait(1)
 			Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="10">(@'..Username..') '..Date..'</font> \n<font color="rgb(150,150,150)">'..Message..'</font>\n\n<font color="rgb(255,102,102)">FAILED TO SEND MESSAGE: Your account is unverified. Please verify your Roblox account by going in this link:</font> <font color="rgb(76, 188, 255)">https://bit.ly/LiveChatVerify</font>'
 		end
 		
@@ -416,8 +417,6 @@ function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Mes
 		coroutine.wrap(function()
 			wait(5)
 			if (Clone) then
-				wait()
-			else
 				Clone:Destroy()
 			end
 		end)()
