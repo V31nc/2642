@@ -443,14 +443,14 @@ else
 	end
 
 	local DisplayedMessage = 0
-	
-	for i, v in ReadMessageHistory() do
+
+	for i, v in ipairs(ReadMessageHistory()) do
 		DisplayMessage(string.split(i, "Message")[2], v["DisplayName"], v["Username"], v["Date"], v["Message"])
 		DisplayedMessage = DisplayedMessage+1
 	end
 	scrollToBottom()
 	wait()
-	
+
 	coroutine.wrap(function()
 		while wait() do
 			local ChatTable = ReadMessageHistory()
