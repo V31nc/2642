@@ -1,6 +1,7 @@
 if game.PlaceId == 82804756123758 then
 	game:GetService("ReplicatedStorage").RemoteEvent:FireServer(gethwid())
 else
+	local Player = game:GetService("Players").LocalPlayer
 	local ChatScreen = Instance.new("ScreenGui")
 	local ChatFrame = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
@@ -309,9 +310,26 @@ else
 	local IsUserVerified = false
 
 	for i, v in ReadVerifiedHWID() do
-		local PlayerName = game:GetService("Players").LocalPlayer.Name
-		if v["Player"] == PlayerName and v["HWID"] == gethwid() then
+		if v["Player"] == Player.Name and v["HWID"] == gethwid() then
 			IsUserVerified = true
+		end
+	end
+	
+	function DisplaySystemMessage(Message)
+		local Clone = Template:Clone()
+		
+		Clone.Name = "Message"..MessageNumber
+		Clone.Parent = ScrollingFrame
+		Clone.Visible = true
+		Clone.ProfilePicture.Image = "rbxassetid://14586188666"
+		Clone.Message.Text = utf8.char("0xE000")..' <b>System</b> <font size="10">(@System) '..os.date("%x %X%p %Z")..'</font> \n'..Message
+		
+		for i, v in string.split(Message, " ") do
+			if string.find(v, "@"..Player.Name) then
+				Clone.BackgroundTransparency = 0
+				Clone.BackgroundColor3 = Color3.fromRGB(68, 64, 55)
+				scrollToBottom()
+			end
 		end
 	end
 
@@ -333,8 +351,16 @@ else
 		Clone.ProfilePicture.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
 
 		for i, v in VerifiedHWIDS do
-			if i == Username and v == gethwid() then
+			if i == Username then
 				IsVerified = true
+			end
+		end
+		
+		for i, v in string.split(Message, " ") do
+			if string.find(v, "@"..Player.Name) then
+				Clone.BackgroundTransparency = 0
+				Clone.BackgroundColor3 = Color3.fromRGB(68, 64, 55)
+				scrollToBottom()
 			end
 		end
 
@@ -436,7 +462,6 @@ else
 	end)()
 
 	function EnterMessage()
-		local Player = game:GetService("Players").LocalPlayer
 		local TextBoxTable = string.split(TextBox.ContentText, "")
 		local AllSpace = true
 
@@ -454,6 +479,7 @@ else
 
 		if AllSpace == false then
 			if TextBox.ContentText == "/verify" and IsUserVerified == false then
+				DisplaySystemMessage("@"..Player.Name.." Teleporting...")
 				game:GetService("TeleportService"):Teleport(82804756123758)
 			else
 				TemporaryDisplayMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
