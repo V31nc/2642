@@ -444,11 +444,12 @@ else
 
 	local DisplayedMessage = 0
 
-	for i, v in ipairs(ReadMessageHistory()) do
+	for i, v in ReadMessageHistory() do
 		DisplayMessage(string.split(i, "Message")[2], v["DisplayName"], v["Username"], v["Date"], v["Message"])
 		DisplayedMessage = DisplayedMessage+1
+		scrollToBottom()
+		wait(0.016)
 	end
-	scrollToBottom()
 	wait()
 
 	coroutine.wrap(function()
