@@ -318,7 +318,7 @@ else
 	function DisplaySystemMessage(Message)
 		local Clone = Template:Clone()
 		
-		Clone.Name = "Message"..MessageNumber
+		Clone.Name = "System"
 		Clone.Parent = ScrollingFrame
 		Clone.Visible = true
 		Clone.ProfilePicture.Image = "rbxassetid://14586188666"
