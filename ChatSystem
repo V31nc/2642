@@ -449,7 +449,7 @@ else
 		DisplayedMessage = DisplayedMessage+1
 	end
 	wait()
-	scrollToBottom()
+	DisplaySystemMessage("Chat loaded successfully! Welcome @"..Player.DisplayName.."!")
 
 	coroutine.wrap(function()
 		while wait() do
