@@ -285,19 +285,16 @@ else
 		return ScrollingFrame.CanvasPosition.Y >= ScrollingFrame.AbsoluteCanvasSize.Y - ScrollingFrame.AbsoluteWindowSize.Y - 10
 	end
 
-	local function ScrollToBottom()
+	local function scrollToBottom()
 		if not isUserScrolling then
 			ScrollingFrame.CanvasPosition = Vector2.new(0, ScrollingFrame.AbsoluteCanvasSize.Y - ScrollingFrame.AbsoluteWindowSize.Y)
 		end
 	end
-	
-	local function ForceScrollToBottom()
-		ScrollingFrame.CanvasPosition = Vector2.new(0, ScrollingFrame.AbsoluteCanvasSize.Y - ScrollingFrame.AbsoluteWindowSize.Y)
-	end
 
 	ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
+		-- If the user scrolls, mark them as actively scrolling
 		isUserScrolling = true
-		task.wait(0.5)
+		task.wait(0.5) -- Wait for a moment to debounce scrolling activity
 		isUserScrolling = false
 	end)
 
@@ -331,7 +328,7 @@ else
 			if string.find(v, "@"..Player.Name) then
 				Clone.BackgroundTransparency = 0
 				Clone.BackgroundColor3 = Color3.fromRGB(68, 64, 55)
-				ForceScrollToBottom()
+				scrollToBottom()
 			end
 		end
 	end
@@ -340,7 +337,7 @@ else
 		coroutine.wrap(function()
 			if isAtBottom() then
 				wait(0.1)
-				ScrollToBottom()
+				scrollToBottom()
 			end
 		end)()
 
@@ -363,7 +360,7 @@ else
 			if string.find(v, "@"..Player.Name) then
 				Clone.BackgroundTransparency = 0
 				Clone.BackgroundColor3 = Color3.fromRGB(68, 64, 55)
-				ForceScrollToBottom()
+				scrollToBottom()
 			end
 		end
 
@@ -416,7 +413,7 @@ else
 			Clone.Visible = true
 			Clone.ProfilePicture.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
 
-			ForceScrollToBottom()
+			scrollToBottom()
 
 			if IsUserVerified == true then
 				PostMessage(MessageNumber, DisplayName, Username, Date, Message)
@@ -429,7 +426,7 @@ else
 				wait(1)
 
 				Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="10">(@'..Username..') '..Date..'</font> \n<font color="rgb(150,150,150)">'..Message..'</font>\n\n<font color="rgb(255,102,102)">FAILED TO SEND MESSAGE: Your account is unverified. Please verify your Roblox account by typing "/verify"</font>'
-				ForceScrollToBottom()
+				scrollToBottom()
 				wait(10)
 				Clone:Destroy()
 			end
@@ -450,7 +447,7 @@ else
 	for i, v in ipairs(ReadMessageHistory()) do
 		DisplayMessage(string.split(i, "Message")[2], v["DisplayName"], v["Username"], v["Date"], v["Message"])
 		DisplayedMessage = DisplayedMessage+1
-		ForceScrollToBottom()
+		scrollToBottom()
 	end
 	wait()
 
