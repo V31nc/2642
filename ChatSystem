@@ -357,7 +357,7 @@ else
 		end
 
 		for i, v in string.split(Message, " ") do
-			if string.find(v, "@"..Player.Name) then
+			if string.find(v, "@"..Player.Name) or string.find(v, "@"..Player.DisplayName) then
 				Clone.BackgroundTransparency = 0
 				Clone.BackgroundColor3 = Color3.fromRGB(68, 64, 55)
 				scrollToBottom()
