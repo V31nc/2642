@@ -300,6 +300,24 @@ ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
 	isUserScrolling = false
 end)
 
+function ReadVerifiedHWID()
+	local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
+	local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
+	local database = URL..".json?auth="..Secret
+	local data = game.HttpService:JSONDecode(game:HttpGetAsync(database))
+
+	return data.VerifiedHWID
+end
+
+local IsUserVerified = false
+
+for i, v in ReadVerifiedHWID() do
+	local PlayerName = game:GetService("Players").LocalPlayer.Name
+	if v["Player"] == PlayerName and v["HWID"] == gethwid() then
+		IsUserVerified = true
+	end
+end
+
 function DisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 	coroutine.wrap(function()
 		if isAtBottom() then
@@ -378,9 +396,13 @@ function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Mes
 		Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="10">(@'..Username..') '..Date..'</font> \n<font color="rgb(150,150,150)">'..Message..'</font>'
 		Clone.Visible = true
 		Clone.ProfilePicture.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..game:GetService("Players"):GetUserIdFromNameAsync(Username).."&width=420&height=420&format=png"
-
-		PostMessage(MessageNumber, DisplayName, Username, Date, Message)
-
+		
+		if IsUserVerified == true then
+			PostMessage(MessageNumber, DisplayName, Username, Date, Message)
+		else
+			Clone.Message.Text = '<b>'..DisplayName..'</b> <font size="10">(@'..Username..') '..Date..'</font> \n<font color="rgb(150,150,150)">'..Message..'</font>\n\n<font color="rgb(255,102,102)">FAILED TO SEND MESSAGE: Your account is unverified. Please verify your Roblox account by going in this link:</font> <font color="rgb(76, 188, 255)">https://bit.ly/LiveChatVerify</font>'
+		end
+		
 		function CheckForMessageFromUser(Username, Message)
 			for i, v in ScrollingFrame:GetChildren() do
 				if string.find(v.Name, "Message") then
@@ -390,7 +412,7 @@ function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Mes
 				end
 			end
 		end
-		
+
 		coroutine.wrap(function()
 			wait(5)
 			if (Clone) then
@@ -399,7 +421,7 @@ function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Mes
 				Clone:Destroy()
 			end
 		end)()
-		
+
 		repeat
 			wait()
 		until CheckForMessageFromUser(Username, Message) == true
@@ -445,7 +467,7 @@ function CreateMessage()
 			AllSpace = false
 		end
 	end
-	
+
 	if string.len(TextBox.ContentText) > 1000 then
 		TextBox.Text = "Message too long!"
 		wait(1)
