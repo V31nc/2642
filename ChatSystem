@@ -448,7 +448,17 @@ else
 
 		return data.LiveChat
 	end
-
+	
+	coroutine.wrap(function()
+		while wait() do
+			for i, v in ReadMessageHistory() do
+				if ScrollingFrame[i].Message.Text ~= v["Message"] then
+					ScrollingFrame[i].Message.Text = v["Message"]
+				end
+			end
+		end
+	end)()
+	
 	local DisplayedMessage = 0
 
 	coroutine.wrap(function()
