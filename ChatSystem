@@ -409,7 +409,7 @@ else
 			Body = game.HttpService:JSONEncode(Table)
 		})
 	end
-	
+
 	function ResetDatabase()
 		local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
 		local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
@@ -427,7 +427,7 @@ else
 				end
 			end
 		end
-		
+
 		Table.LiveChat = {
 			Message1 = {
 				Date = os.date("%x %X%p %Z"),
@@ -499,30 +499,17 @@ else
 				DisplayedMessage = DisplayedMessage+1
 				local MessagePath = ChatTable["Message"..DisplayedMessage]
 				DisplayMessage(DisplayedMessage, MessagePath.DisplayName, MessagePath.Username, MessagePath.Date, MessagePath.Message)
-			end
-		end
-	end)()
-	
-	coroutine.wrap(function()
-		while task.wait() do
-			local ChatTable = ReadMessageHistory()
-			local LoadedMessagesInDatabase = 0
-			for i, v in ChatTable do
-				LoadedMessagesInDatabase = LoadedMessagesInDatabase+1
-			end
-			wait()
-
-			if LoadedMessagesInDatabase < DisplayedMessage then
+			elseif LoadedMessagesInDatabase < DisplayedMessage then
 				DisplaySystemMessage("LiveChat database closed connection because displayed messages are greater than messages in database.")
 				DisplaySystemMessage("Erasing and deleting messages...")
-				
+
 				for i, v in ScrollingFrame:GetChildren() do
 					if string.find(v.Name, "Message") or string.find(v.Name, "System") or string.find(v.Name, "Temporary") then
 						v:Destroy()
 					end 
 				end
 				DisplayedMessage = 0
-				
+
 				ResetDatabase()
 			end
 		end
