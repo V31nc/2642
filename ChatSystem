@@ -306,7 +306,7 @@ else
 
 		return data.VerifiedHWID
 	end
-	
+
 	function IsUserVerified()
 		local IsUserVerified = false
 
@@ -361,6 +361,10 @@ else
 
 		for i, v in string.split(Message, " ") do
 			if string.find(v, "@"..Player.Name) or string.find(v, "@"..Player.DisplayName) then
+				Clone.BackgroundTransparency = 0
+				Clone.BackgroundColor3 = Color3.fromRGB(68, 64, 55)
+				scrollToBottom()
+			elseif IsVerified == true and string.find(v, "@everyone") then
 				Clone.BackgroundTransparency = 0
 				Clone.BackgroundColor3 = Color3.fromRGB(68, 64, 55)
 				scrollToBottom()
