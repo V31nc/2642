@@ -476,7 +476,7 @@ else
 						local VerifiedPeople = loadstring(game:HttpGet("https://raw.githubusercontent.com/V31nc/2642/Created/ChatSystemVerifiedHWIDS"))()
 						
 						local IsVerified = false
-						for i, v in VerifiedPeople do
+						for i, _ in VerifiedPeople do
 							if i == v["Username"] then
 								IsVerified = true
 							end
