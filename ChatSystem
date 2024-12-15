@@ -447,6 +447,7 @@ else
 	for i, v in ipairs(ReadMessageHistory()) do
 		DisplayMessage(string.split(i, "Message")[2], v["DisplayName"], v["Username"], v["Date"], v["Message"])
 		DisplayedMessage = DisplayedMessage+1
+		print("tese")
 	end
 	wait()
 	DisplaySystemMessage("Chat loaded successfully! Welcome @"..Player.DisplayName.."!")
@@ -490,8 +491,8 @@ else
 				game:GetService("TeleportService"):Teleport(82804756123758)
 			else
 				TemporaryDisplayMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
-				TextBox.Text = ""
 			end
+			TextBox.Text = ""
 		end
 	end
 
