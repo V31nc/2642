@@ -449,16 +449,6 @@ else
 		return data.LiveChat
 	end
 	
-	coroutine.wrap(function()
-		while wait() do
-			for i, v in ReadMessageHistory() do
-				if ScrollingFrame[i].Message.Text ~= v["Message"] then
-					ScrollingFrame[i].Message.Text = v["Message"]
-				end
-			end
-		end
-	end)()
-	
 	local DisplayedMessage = 0
 
 	coroutine.wrap(function()
@@ -474,6 +464,18 @@ else
 				DisplayedMessage = DisplayedMessage+1
 				local MessagePath = ChatTable["Message"..DisplayedMessage]
 				DisplayMessage(DisplayedMessage, MessagePath.DisplayName, MessagePath.Username, MessagePath.Date, MessagePath.Message)
+			end
+		end
+	end)()
+	
+	coroutine.wrap(function()
+		while wait() do
+			for i, v in ReadMessageHistory() do
+				if ScrollingFrame:FindFirstChild(i) then
+					if ScrollingFrame[i].Message.Text ~= v["Message"] then
+						ScrollingFrame[i].Message.Text = v["Message"]
+					end
+				end
 			end
 		end
 	end)()
