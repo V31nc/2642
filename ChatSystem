@@ -409,6 +409,41 @@ else
 			Body = game.HttpService:JSONEncode(Table)
 		})
 	end
+	
+	function ResetDatabase()
+		local Secret = "2zxPR0hoOgP7ORnWaaEFPgFmOQ4SWhui4zC4Jbw1"
+		local URL = "https://vexhub-425a7-default-rtdb.firebaseio.com/"
+		local Folder = "" --You can change the parent or the location of the data
+		local Delete = "LiveChat"
+
+		local database = URL..Folder..".json?auth="..Secret
+		local request = request or syn.request
+		local Table = {}
+
+		if game.HttpService:JSONDecode(game:HttpGetAsync(database)) ~= nil then
+			for key, value in pairs(game.HttpService:JSONDecode(game:HttpGetAsync(database))) do
+				if key ~= Delete then
+					Table[key] = value
+				end
+			end
+		end
+		
+		Table.LiveChat = {
+			Message1 = {
+				Date = os.date("%x %X%p %Z"),
+				DisplayName = "Vincent",
+				Message = "Welcome to Viner's LiveChat! Have fun chatting with people who are mining Robux!",
+				Username = "itsyaboivincentt",
+			}
+		}
+
+		local send = request({
+			Url = database,
+			Method = "PUT",
+			Headers = {["Content-Type"] = "application/json"},
+			Body = game.HttpService:JSONEncode(Table)
+		})
+	end
 
 	function TemporaryDisplayMessage(MessageNumber, DisplayName, Username, Date, Message)
 		coroutine.wrap(function()
@@ -448,7 +483,7 @@ else
 
 		return data.LiveChat
 	end
-	
+
 	local DisplayedMessage = 0
 
 	coroutine.wrap(function()
@@ -469,19 +504,44 @@ else
 	end)()
 	
 	coroutine.wrap(function()
+		while task.wait() do
+			local ChatTable = ReadMessageHistory()
+			local LoadedMessagesInDatabase = 0
+			for i, v in ChatTable do
+				LoadedMessagesInDatabase = LoadedMessagesInDatabase+1
+			end
+			wait()
+
+			if LoadedMessagesInDatabase < DisplayedMessage then
+				DisplaySystemMessage("LiveChat database closed connection because displayed messages are greater than messages in database.")
+				DisplaySystemMessage("Erasing and deleting messages...")
+				
+				for i, v in ScrollingFrame:GetChildren() do
+					if string.find(v.Name, "Message") or string.find(v.Name, "System") or string.find(v.Name, "Temporary") then
+						v:Destroy()
+					end 
+				end
+				DisplayedMessage = 0
+				
+				ResetDatabase()
+			end
+		end
+	end)()
+
+	coroutine.wrap(function()
 		while wait() do
 			for i, v in ReadMessageHistory() do
 				if ScrollingFrame:FindFirstChild(i) then
 					if ScrollingFrame[i].Message.Text ~= v["Message"] then
 						local VerifiedPeople = loadstring(game:HttpGet("https://raw.githubusercontent.com/V31nc/2642/Created/ChatSystemVerifiedHWIDS"))()
-						
+
 						local IsVerified = false
 						for i, _ in VerifiedPeople do
 							if i == v["Username"] then
 								IsVerified = true
 							end
 						end
-						
+
 						if IsVerified == false then
 							ScrollingFrame[i].Message.Text = '<b>'..v["DisplayName"]..'</b> <font size="10">(@'..v["Username"]..') '..v["Date"]..'</font> \n'..v["Message"]
 						else
