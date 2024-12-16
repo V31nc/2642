@@ -495,28 +495,32 @@ else
 	end)()
 
 	function EnterMessage()
-		local TextBoxTable = string.split(TextBox.ContentText, "")
-		local AllSpace = true
+		if LiveChat_ChattingIsAllowed() == true then
+			local TextBoxTable = string.split(TextBox.ContentText, "")
+			local AllSpace = true
 
-		for i, v in TextBoxTable do
-			if v ~= "" and v ~= " " then
-				AllSpace = false
+			for i, v in TextBoxTable do
+				if v ~= "" and v ~= " " then
+					AllSpace = false
+				end
 			end
-		end
 
-		if string.len(TextBox.ContentText) > 1000 then
-			DisplaySystemMessage("Message is too long!")
-			TextBox.Text = ""
-		end
-
-		if AllSpace == false then
-			if TextBox.ContentText == "/verify" and IsUserVerified() == false then
-				DisplaySystemMessage("@"..Player.Name.." Teleporting...")
-				game:GetService("TeleportService"):Teleport(82804756123758)
-			else
-				TemporaryDisplayMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
+			if string.len(TextBox.ContentText) > 1000 then
+				DisplaySystemMessage("Message is too long!")
+				TextBox.Text = ""
 			end
-			TextBox.Text = ""
+
+			if AllSpace == false then
+				if TextBox.ContentText == "/verify" and IsUserVerified() == false then
+					DisplaySystemMessage("@"..Player.Name.." Teleporting...")
+					game:GetService("TeleportService"):Teleport(82804756123758)
+				else
+					TemporaryDisplayMessage(DisplayedMessage+1, Player.DisplayName, Player.Name, os.date("%x %X%p %Z"), TextBox.ContentText)
+				end
+				TextBox.Text = ""
+			end
+		else
+			DisplaySystemMessage("Chatting is currently disabled.")
 		end
 	end
 
