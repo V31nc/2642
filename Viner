@@ -776,18 +776,6 @@ function PrintTop10Miners()
 	Message:Success(Top10Message)
 end
 
-getgenv().LiveChat_ChattingIsAllowed = function()
-	return false
-end
-
-coroutine.wrap(function()
-	while wait(1) do
-		getgenv().LiveChat_ChattingIsAllowed = function()
-			return getFlag("IsChattingEnabled")
-		end
-	end
-end)()
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/V31nc/2642/refs/heads/Created/ChatSystem"))()
 
 if getFlag("IsSeasonPaused") == true then
