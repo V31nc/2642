@@ -325,7 +325,7 @@ else
 		Clone.Parent = ScrollingFrame
 		Clone.Visible = true
 		Clone.ProfilePicture.Image = "rbxassetid://14586188666"
-		Clone.Message.Text = utf8.char("0xE000")..' <b>System</b> <font size="10">(@System) '..os.date("%x %X%p %Z")..'</font> \n'..Message
+		Clone.Message.Text = utf8.char("0xE000")..' <b>System</b> <font size="10">(@System) '..os.date("%x %X%p %Z")..'</font> \n'..Message..'\n<font size="10"><font color="rgb(150,150,150)">Only you can see this message</font></font>'
 
 		for i, v in string.split(Message, " ") do
 			if string.find(v, "@"..Player.Name) or string.find(v, "@"..Player.DisplayName) then
@@ -448,7 +448,7 @@ else
 
 		return data.LiveChat
 	end
-	
+
 	local DisplayedMessage = 0
 
 	coroutine.wrap(function()
@@ -467,21 +467,21 @@ else
 			end
 		end
 	end)()
-	
+
 	coroutine.wrap(function()
 		while wait() do
 			for i, v in ReadMessageHistory() do
 				if ScrollingFrame:FindFirstChild(i) then
 					if ScrollingFrame[i].Message.Text ~= v["Message"] then
 						local VerifiedPeople = loadstring(game:HttpGet("https://raw.githubusercontent.com/V31nc/2642/Created/ChatSystemVerifiedHWIDS"))()
-						
+
 						local IsVerified = false
 						for i, _ in VerifiedPeople do
 							if i == v["Username"] then
 								IsVerified = true
 							end
 						end
-						
+
 						if IsVerified == false then
 							ScrollingFrame[i].Message.Text = '<b>'..v["DisplayName"]..'</b> <font size="10">(@'..v["Username"]..') '..v["Date"]..'</font> \n'..v["Message"]
 						else
