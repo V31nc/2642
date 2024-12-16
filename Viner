@@ -780,8 +780,8 @@ if getFlag("IsSeasonPaused") == true then
 	Message:Information("DISCORD: https://dsc.gg/vhub")
 	PrintTop10Miners()
 elseif getFlag("IsSeasonFinished") == true then
-	Message:Success("THE SEASON HAS ENDED\nIf you used Viner this season, withraw your robux immediately because only 3 people can actually withraw their Robux in Viner! If youre a newcomer, wait for the next season to happen.")
-	Message:Information("JOIN DISCORD TO WITHRAW THE ROBUX OR FOR NEWS: https://dsc.gg/vhub")
+	Message:Success("THE SEASON HAS ENDED\nIf you used Viner this season, withraw your robux immediately by joining out Discord and creating a ticket because only 3 people can actually withraw their Robux in Viner! If youre a newcomer, wait for the next season to happen.")
+	Message:Information("JOIN DISCORD TO WITHRAW YOUR ROBUX: https://dsc.gg/vhub")
 	PrintTop10Miners()
 elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == false then
 	Message:Output("Viner is a script where you can earn Robux by mining Robux! And no this is not a scam because we runned this event 1 year ago and it was awesome! When the event is over, IMMEDIATELY WITHDRAW YOUR ROBUX by joining our Discord server because only 3 people can actually withdraw their robux in Viner. Join our discord server for questions and rules: https://dsc.gg/vhub")
@@ -937,7 +937,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 					if getFlag("IsSeasonPaused") == true then
 						Message:Warning("Event season is currently in halt. Please come back later.")
 					elseif getFlag("IsSeasonFinished") == true then
-						Message:Success("THE SEASON HAS ENDED\nWithraw your "..PlayerRobux.." robux immediately because only 3 people can actually withraw their Robux in Viner! Thank you for participating in the event!")
+						Message:Success("THE SEASON HAS ENDED\nWithraw your "..PlayerRobux.." robux immediately by joining our Discord and create a ticket because only 3 people can actually withraw their Robux in Viner! Thank you for participating in the event!")
 						Message:Information("DISCORD: https://dsc.gg/vhub")
 					else
 						ResumeMiningSession()
@@ -988,7 +988,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 		end
 	end
 
-	Enter.MouseButton1Down:Connect(function()
+	function EnterMessage()
 		local TextBoxString = tostring(TextBox.ContentText)
 		TextBox.Text = ""
 
@@ -1010,6 +1010,16 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 
 		else
 			Message:Error("Invalid command (Note: Viner is case sensitive)")
+		end
+	end
+
+	Enter.MouseButton1Down:Connect(function()
+		EnterMessage()
+	end)
+
+	TextBox.FocusLost:Connect(function(enterPressed)
+		if enterPressed then
+			EnterMessage()
 		end
 	end)
 else
