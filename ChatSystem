@@ -36,6 +36,7 @@ else
 	ChatScreen.Name = "ChatScreen"
 	ChatScreen.Parent = game:GetService("CoreGui")
 	ChatScreen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	ChatScreen.ClipToDeviceSafeArea = false
 
 	ChatFrame.Name = "ChatFrame"
 	ChatFrame.Parent = ChatScreen
