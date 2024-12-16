@@ -54,7 +54,6 @@ VinerScreen.Name = "VinerScreen"
 VinerScreen.Parent = game:GetService("CoreGui")
 VinerScreen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 VinerScreen.ClipToDeviceSafeArea = false
-VinerScreen.ResetOnSpawn = false
 
 Viner.Name = "Viner"
 Viner.Parent = VinerScreen
