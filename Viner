@@ -787,6 +787,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 	Message:Output("Viner is a script where you can earn Robux by mining Robux! And no this is not a scam because we runned this event 1 year ago and it was awesome! When the event is over, IMMEDIATELY WITHDRAW YOUR ROBUX by joining our Discord server because only 3 people can actually withdraw their robux in Viner. Join our discord server for questions and rules: https://dsc.gg/vhub")
 	Message:Information("DISCORD: https://dsc.gg/vhub")
 	Message:Information("To start mining robux, type \"StartSession()\" in the TextBox and enter!")
+	Message:Warning("Season/Event ending in: "..getFlag("SeasonEndingDate"))
 	PrintTop10Miners()
 
 	local Encrypt = {}
@@ -936,7 +937,7 @@ elseif getFlag("IsSeasonPaused") == false and getFlag("IsSeasonFinished") == fal
 					if getFlag("IsSeasonPaused") == true then
 						Message:Warning("Event season is currently in halt. Please come back later.")
 					elseif getFlag("IsSeasonFinished") == true then
-						Message:Success("THE SEASON HAS ENDED\nwWithraw your "..PlayerRobux.." robux immediately because only 3 people can actually withraw their Robux in Viner! Thank you for participating in the event!")
+						Message:Success("THE SEASON HAS ENDED\nWithraw your "..PlayerRobux.." robux immediately because only 3 people can actually withraw their Robux in Viner! Thank you for participating in the event!")
 						Message:Information("DISCORD: https://dsc.gg/vhub")
 					else
 						ResumeMiningSession()
